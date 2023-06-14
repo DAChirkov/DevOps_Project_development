@@ -1,0 +1,19 @@
+- name: "Example_3"
+  gather_facts: true
+  hosts: AllServers
+  become: true
+  remote_user: azroot
+
+  tasks:
+    - name: "Install ntp"
+      apt: 
+        name:
+        - ntp
+        state: present
+        update_cache: yes
+
+    - name: "Ensure ntp is enable on at boot"
+      service:
+        name: ntp
+        state: started
+        enabled: yes

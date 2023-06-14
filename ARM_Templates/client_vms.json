@@ -1,0 +1,138 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.17.1.54307",
+      "templateHash": "11453007703022839041"
+    }
+  },
+  "parameters": {
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "azroot"
+    },
+    "OSVersion": {
+      "type": "string",
+      "defaultValue": "debian-11"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "vmSize": {
+      "type": "string"
+    },
+    "numberOfInstances": {
+      "type": "int",
+      "minValue": 1,
+      "maxValue": 3
+    }    
+  },
+  "variables": {
+    "imageReference": {
+      "Debian-11": {
+        "publisher": "Debian",
+        "offer": "Debian-11",
+        "sku": "11",
+        "version": "latest"
+      }
+    },
+      "MainRG": "RG_AzProject",
+      "vmName": "VM-CLN", 
+      "sshKeyName": "SSHKeysForClients",
+      "nsgName": "NSG-AzProject",
+      "vnetName": "vNet-AzProject",
+      "subnetName": "SubNet-AzProject",
+      "osDiskType": "Standard_LRS",
+      "networkInterfaceName": "VM_LAN",
+        "sshKeyResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Compute/sshPublicKeys', variables('sshKeyName'))]",           
+        "nsgResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Network/networkSecurityGroups', variables('nsgName'))]",
+        "vnetId": "[resourceId(variables('MainRG'), 'Microsoft.Network/virtualNetworks',variables('vnetName'))]",        
+        "subnetResourceId": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2022-09-01",
+      "name": "[concat(variables('networkInterfaceName'), '-', copyIndex(1))]",
+      "location": "[parameters('location')]",
+        "copy": {
+          "name": "networkInterfaceNameCopy",
+          "count": "[parameters('numberOfInstances')]"
+        },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[variables('subnetResourceId')]"
+              },
+              "privateIPAllocationMethod": "Dynamic"
+            }
+          }
+        ],
+        "networkSecurityGroup": {
+          "id": "[variables('nsgResourceId')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2022-11-01",
+      "name": "[concat(variables('vmName'), '-', copyIndex(1))]",
+      "location": "[parameters('location')]",
+        "copy": {
+          "name": "vmNameCopy",
+          "count": "[parameters('numberOfInstances')]"
+        },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "storageProfile": {
+          "osDisk": {
+            "createOption": "FromImage",
+            "managedDisk": {
+              "storageAccountType": "[variables('osDiskType')]"
+            }
+          },
+          "imageReference": "[variables('imageReference')[parameters('OSVersion')]]"
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('networkInterfaceName'), '-', copyIndex(1)))]"
+            }
+          ]
+        },
+        "osProfile": {
+          "computerName": "[concat(variables('vmName'), '-', copyIndex(1))]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "linuxConfiguration": {
+                  "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+                                    "keyData": "[reference(variables('sshKeyResourceId'), '2019-12-01').publicKey]"
+                                }
+                            ]
+                        }
+                    }
+         
+        },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": false
+                    }
+                }               
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('networkInterfaceName'), '-', copyIndex(1)))]"
+      ]
+    }
+  ]
+}

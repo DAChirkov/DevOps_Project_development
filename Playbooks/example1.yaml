@@ -1,0 +1,14 @@
+- name: "Example_1"
+  gather_facts: true
+  hosts: AllServers
+  become: true
+  remote_user: azroot
+
+  tasks:
+    - name: "Install general software"
+      apt:
+        name:
+        - mc
+        - htop
+        state: present
+        update_cache: yes

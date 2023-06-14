@@ -1,0 +1,23 @@
+- name: "Learning Ansible challenge - 4.4"
+  gather_facts: true
+  hosts: AllServers
+  become: true
+  remote_user: azroot
+
+  tasks:
+    - name: "Ping hosts"
+      ping:
+
+    - name: Create a directory if it does not exist
+      file:
+        path: /home/azroot/test_files
+        state: directory
+        mode: '0777'
+
+    - name: "Create new files"
+      file:
+        path: "{{ item.path }}"
+        state: touch
+      loop:
+        - { path: /home/azroot/test_files/file1.txt }
+        - { path: /home/azroot/test_files/file2.txt }      
