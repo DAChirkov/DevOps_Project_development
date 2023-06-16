@@ -14,29 +14,40 @@
       "defaultValue": "[resourceGroup().location]"
     },
     "virtualNetworkName": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "vNet-AzProject"
     },
-    "subnetName": {
-      "type": "string"
+    "subnetName1": {
+      "type": "string",
+      "defaultValue": "SubNet1-AzProject"
+    },
+    "subnetName2": {
+      "type": "string",
+      "defaultValue": "SubNet2-AzProject"
     },
     "networkSecurityGroupName": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "NSG-AzProject"
     },
     "SSHStorageName": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "SSHKeysForManage"
     },
     "SSHStorageNameClients": {
+      "type": "string",
+      "defaultValue": "SSHKeysForClients"
+    },
+    "PublicKeyForServers": {
       "type": "string"
+
     },
-    "PublicKeyServers": {
-      "type": "securestring"
-    },
-    "PublicKeyClients": {
-      "type": "securestring"
+    "PublicKeyForClients": {
+      "type": "string"
     }
   },
   "variables": {
-    "subnetAddressPrefix": "10.1.0.0/24",
+    "subnetAddressPrefix_1": "10.1.0.0/24",
+    "subnetAddressPrefix_2": "10.1.1.0/24",    
     "addressPrefix": "10.1.0.0/16"
   },
   "resources": [
@@ -73,21 +84,22 @@
           "addressPrefixes": [
             "[variables('addressPrefix')]"
           ]
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Network/virtualNetworks/subnets",
-      "apiVersion": "2022-09-01",
-      "name": "[format('{0}/{1}', parameters('virtualNetworkName'), parameters('subnetName'))]",
-      "properties": {
-        "addressPrefix": "[variables('subnetAddressPrefix')]",
-        "privateEndpointNetworkPolicies": "Enabled",
-        "privateLinkServiceNetworkPolicies": "Enabled"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
-      ]
+        },
+        "subnets": [
+          {
+          "name": "[parameters('subnetName1')]",
+            "properties": {
+              "addressPrefix": "[variables('subnetAddressPrefix_1')]"
+            }
+          },  
+          {
+          "name": "[parameters('subnetName2')]",
+            "properties": {
+              "addressPrefix": "[variables('subnetAddressPrefix_2')]" 
+            }
+          }  
+        ]
+      }    
     },
     {
       "type": "Microsoft.Compute/sshPublicKeys",
@@ -95,7 +107,7 @@
       "location": "[parameters('location')]",
       "name": "[parameters('SSHStorageName')]",
       "properties": { 
-             "publicKey": "[parameters('PublicKeyServers')]"
+             "publicKey": "[parameters('PublicKeyForServers')]"
             }
     },
     {
@@ -104,7 +116,7 @@
       "location": "[parameters('location')]",
       "name": "[parameters('SSHStorageNameClients')]",
       "properties": { 
-             "publicKey": "[parameters('PublicKeyClients')]"
+             "publicKey": "[parameters('PublicKeyForClients')]"
             }
     }      
   ]
