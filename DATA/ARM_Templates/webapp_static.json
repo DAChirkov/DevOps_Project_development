@@ -1,0 +1,73 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+      "metadata": {
+        "_generator": {
+            "name": "bicep",
+            "version": "0.17.1.54307",
+            "templateHash": "11453007703022839041"
+        }
+      },
+    "parameters": {
+        "nameApp": {
+            "type": "string",
+            "defaultValue" : "[uniqueString(resourceGroup().id, parameters('repositoryUrl'))]"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]"
+        },
+        "sku": {
+            "type": "string",
+            "defaultValue": "Free"
+        },
+        "skucode": {
+            "type": "string",
+            "defaultValue": "Free"
+        },
+        "repositoryUrl": {
+            "type": "string"
+        },
+        "branch": {
+            "type": "string"
+        },
+        "repositoryToken": {
+            "type": "securestring",
+            "defaultValue": null
+        },
+        "appLocation": {
+            "type": "string",
+            "defaultValue": "/"
+        },
+        "apiLocation": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "appArtifactLocation": {
+            "type": "string",
+            "defaultValue": "/"
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2021-01-01",
+            "name": "[parameters('nameApp')]",
+            "type": "Microsoft.Web/staticSites",
+            "location": "[parameters('location')]",
+            "properties": {
+                "repositoryUrl": "[parameters('repositoryUrl')]",
+                "branch": "[parameters('branch')]",
+                "repositoryToken": "[parameters('repositoryToken')]",
+                "buildProperties": {
+                    "appLocation": "[parameters('appLocation')]",
+                    "apiLocation": "[parameters('apiLocation')]",
+                    "appArtifactLocation": "[parameters('appArtifactLocation')]"
+                }
+            },
+            "sku": {
+                "Tier": "[parameters('sku')]",
+                "Name": "[parameters('skuCode')]"
+            }
+        }
+    ]
+}

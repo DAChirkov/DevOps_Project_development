@@ -2,7 +2,7 @@ $RG = 'RG_AzProject_VMs_Manage'
 $RG_resources = 'RG_AzProject'
 $VM = 'VM-ANS-1'
 $Location = 'East US 2'
-$Template = '.\ARM_Templates\manage_vms.json'
+$Template = '.\DATA\ARM_Templates\manage_vms.json'
 
 #Checking if the Resurce Groups ($RG_resources) exist
 $RGCheck = Get-AzResourceGroup -ResourceGroupName $RG_resources -ErrorAction SilentlyContinue

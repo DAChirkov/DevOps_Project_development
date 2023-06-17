@@ -2,7 +2,7 @@ $RG = 'RG_AzProject_VMs_Clients'
 $RG_resources = 'RG_AzProject'
 $NumberOfClients = Read-Host "Enter the number of VMs"
 $Location = 'East US 2'
-$Template = '.\ARM_Templates\client_vms.json'
+$Template = '.\DATA\ARM_Templates\client_vms.json'
 
 #Checking if the Resurce Groups ($RG_resources) exist
 $RGCheck = Get-AzResourceGroup -ResourceGroupName $RG_resources -ErrorAction SilentlyContinue
