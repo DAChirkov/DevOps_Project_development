@@ -9,9 +9,13 @@
         }
       },
     "parameters": {
+        "preNameApp": {
+            "type": "string",
+            "defaultValue": "static_web_app"
+        },
         "nameApp": {
             "type": "string",
-            "defaultValue" : "[uniqueString(resourceGroup().id, parameters('repositoryUrl'))]"
+            "defaultValue" : "[toLower(format('{0}-{1}', parameters('preNameApp'), uniqueString(resourceGroup().id)))]"
         },
         "location": {
             "type": "string",
@@ -31,10 +35,6 @@
         "branch": {
             "type": "string"
         },
-        "repositoryToken": {
-            "type": "securestring",
-            "defaultValue": null
-        },
         "appLocation": {
             "type": "string",
             "defaultValue": "/"
@@ -48,6 +48,9 @@
             "defaultValue": "/"
         }
     },
+    "variables": {
+        "resourceId": "[resourceId('Microsoft.Web/staticSites/', parameters('nameApp'))]"
+    },
     "resources": [
         {
             "apiVersion": "2021-01-01",
@@ -57,7 +60,6 @@
             "properties": {
                 "repositoryUrl": "[parameters('repositoryUrl')]",
                 "branch": "[parameters('branch')]",
-                "repositoryToken": "[parameters('repositoryToken')]",
                 "buildProperties": {
                     "appLocation": "[parameters('appLocation')]",
                     "apiLocation": "[parameters('apiLocation')]",
@@ -69,5 +71,15 @@
                 "Name": "[parameters('skuCode')]"
             }
         }
-    ]
+    ],
+        "outputs": {
+        "DNSName": {
+            "type": "string",
+            "value": "[reference(parameters('nameApp')).defaultHostName]"
+        },
+        "deploymentToken": {
+            "type": "string",
+            "value": "[listSecrets(variables('resourceId'), '2019-08-01').properties.apiKey]"
+        }
+    } 
 }

@@ -1,5 +1,5 @@
 $RG = 'RG_AzProject_App'
-$Location = 'East US'
+$Location = 'East US2'
 $Repository = "https://github.com/DAChirkov/Static_WebApp"
 $Branch = "main"
 $Template = '.\DATA\ARM_Templates\webapp_static.json'
