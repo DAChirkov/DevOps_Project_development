@@ -15,7 +15,7 @@
         },
         "nameApp": {
             "type": "string",
-            "defaultValue" : "[toLower(format('{0}-{1}', parameters('preNameApp'), uniqueString(resourceGroup().id)))]"
+            "defaultValue" : "[toLower(format('{0}-{1}', parameters('preNameApp'), uniqueString(resourceGroup().id), parameters('repositoryUrl')))]"
         },
         "location": {
             "type": "string",
