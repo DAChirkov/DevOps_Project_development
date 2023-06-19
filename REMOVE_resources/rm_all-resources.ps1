@@ -1,7 +1,6 @@
-$RG1 = 'RG_AzProject'
-$RG2 = 'RG_AzProject_VMs_Manage'
-$RG3 = 'RG_AzProject_VMs_Clients'
-$ListOfRGs = @($RG3,$RG2,$RG1)
+$RG1 = 'RG_AzProject_VMs'
+$RG2 = 'RG_AzProject_App'
+$ListOfRGs = @($RG2,$RG1)
 
 #Checking if the Resurce Groups exist and their deleting
 $RGCheck = Get-AzResourceGroup -ResourceGroupName *

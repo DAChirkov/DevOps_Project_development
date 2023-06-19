@@ -68,7 +68,6 @@
             "defaultValue": "v4.0"
         }
     },
-    "variables": {},
     "resources": [
         {
             "apiVersion": "2018-11-01",

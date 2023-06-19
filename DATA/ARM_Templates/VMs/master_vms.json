@@ -41,11 +41,11 @@
         "version": "latest"
       }
     },
-      "MainRG": "RG_AzProject",
+      "MainRG": "RG_AzProject_VMs",
       "sshKeyName": "SSHKeysForManage",
       "nsgName": "NSG-AzProject",
       "vnetName": "vNet-AzProject",
-      "subnetName": "SubNet-AzProject",
+      "subnetName": "SubNet1-AzProject",
         "sshKeyResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Compute/sshPublicKeys', variables('sshKeyName'))]",           
         "nsgResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Network/networkSecurityGroups', variables('nsgName'))]",
         "vnetId": "[resourceId(variables('MainRG'), 'Microsoft.Network/virtualNetworks',variables('vnetName'))]",        

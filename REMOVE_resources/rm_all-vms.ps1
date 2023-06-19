@@ -1,4 +1,4 @@
-$RG = 'RG_AzProject_VMs_Manage'
+$RG = 'RG_AzProject_VMs'
 
 #Checking if the Resurce Group ($RG) exists
 $RGCheck = Get-AzResourceGroup -ResourceGroupName *

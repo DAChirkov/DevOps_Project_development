@@ -39,12 +39,12 @@
         "version": "latest"
       }
     },
-      "MainRG": "RG_AzProject",
+      "MainRG": "RG_AzProject_VMs",
       "vmName": "VM-CLN", 
       "sshKeyName": "SSHKeysForClients",
       "nsgName": "NSG-AzProject",
       "vnetName": "vNet-AzProject",
-      "subnetName": "SubNet-AzProject",
+      "subnetName": "SubNet2-AzProject",
       "osDiskType": "Standard_LRS",
       "networkInterfaceName": "VM_LAN",
         "sshKeyResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Compute/sshPublicKeys', variables('sshKeyName'))]",           
