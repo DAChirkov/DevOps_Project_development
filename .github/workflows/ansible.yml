@@ -1,0 +1,12 @@
+# Deploy ansible
+name: Deploy Ansible to Azure
+on:
+  workflow_dispatch:
+
+jobs:
+  testing_and_deploy_action:
+    runs-on: ubuntu-latest
+    name: Testing Install Ansible
+    steps:
+      - name: Check version
+        run: ansible --version
