@@ -1,190 +1,161 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "metadata": {
-    "_generator": {
-      "name": "bicep",
-      "version": "0.17.1.54307",
-      "templateHash": "11453007703022839041"
-    }
-  },
-  "parameters": {
-    "vmName": {
-      "type": "string"
-    },
-    "adminUsername": {
-      "type": "string",
-      "defaultValue": "azroot"
-    },
-    "dnsLabelPrefix": {
-      "type": "string",
-      "defaultValue": "[toLower(parameters('vmName'))]"
-    },
-    "OSVersion": {
-      "type": "string",
-      "defaultValue": "debian-11"
-    },
-    "location": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().location]"
-    },
-    "vmSize": {
-      "type": "string"
-    }
-  },
-  "variables": {
-    "imageReference": {
-      "Debian-11": {
-        "publisher": "Debian",
-        "offer": "Debian-11",
-        "sku": "11",
-        "version": "latest"
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata": {
+      "_generator": {
+        "name": "bicep",
+        "version": "0.17.1.54307",
+        "templateHash": "11453007703022839041"
       }
     },
-      "MainRG": "RG_AzProject_VMs",
-      "sshKeyName": "SSHKeysForManage",
-      "nsgName": "NSG-AzProject",
-      "vnetName": "vNet-AzProject",
-      "subnetName": "SubNet1-AzProject",
-        "sshKeyResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Compute/sshPublicKeys', variables('sshKeyName'))]",           
-        "nsgResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Network/networkSecurityGroups', variables('nsgName'))]",
-        "vnetId": "[resourceId(variables('MainRG'), 'Microsoft.Network/virtualNetworks',variables('vnetName'))]",        
-        "subnetResourceId": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",   
-    "publicIPAddressName": "[format('{0}_PublicIP', parameters('vmName'))]",
-    "networkInterfaceName": "[format('{0}_NetInt', parameters('vmName'))]",
-    "osDiskType": "Standard_LRS",
-    "extensionName": "GuestAttestation",
-    "extensionPublisher": "Microsoft.Azure.Security.LinuxAttestation",
-    "extensionVersion": "1.0",
-    "maaTenantName": "GuestAttestation",
-    "maaEndpoint": "[substring('emptystring', 0, 0)]"
-  },
-  "resources": [
-    {
-      "type": "Microsoft.Network/networkInterfaces",
-      "apiVersion": "2022-09-01",
-      "name": "[variables('networkInterfaceName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "subnet": {
-                "id": "[variables('subnetResourceId')]"
-              },
-              "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+    "parameters": {
+      "vmName": {
+        "type": "string"
+      },
+      "adminUsername": {
+        "type": "string",
+        "defaultValue": "azroot"
+      },
+      "dnsLabelPrefix": {
+        "type": "string",
+        "defaultValue": "[toLower(parameters('vmName'))]"
+      },
+      "OSVersion": {
+        "type": "string",
+        "defaultValue": "debian-11"
+      },
+      "location": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().location]"
+      },
+      "vmSize": {
+        "type": "string"
+      }
+    },
+    "variables": {
+      "imageReference": {
+        "Debian-11": {
+          "publisher": "Debian",
+          "offer": "Debian-11",
+          "sku": "11",
+          "version": "latest"
+        }
+      },
+        "MainRG": "RG_AzProject_VMs",
+        "sshKeyName": "SSHKeysForManage",
+            "sshKeyResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Compute/sshPublicKeys', variables('sshKeyName'))]",
+        "nsgName": "NSG-AzProject",
+            "nsgResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Network/networkSecurityGroups', variables('nsgName'))]",
+        "vnetName": "vNet-AzProject",
+            "vnetId": "[resourceId(variables('MainRG'), 'Microsoft.Network/virtualNetworks',variables('vnetName'))]",        
+        "subnetName": "SubNet1-AzProject",
+            "subnetResourceId": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",   
+        "publicIPAddressName": "[format('{0}_PublicIP', parameters('vmName'))]",
+        "networkInterfaceName": "[format('{0}_NetInt', parameters('vmName'))]",
+        "osDiskType": "Standard_LRS"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Network/networkInterfaces",
+        "apiVersion": "2022-09-01",
+        "name": "[variables('networkInterfaceName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "ipConfigurations": [
+            {
+              "name": "ipconfig1",
+              "properties": {
+                "subnet": {
+                  "id": "[variables('subnetResourceId')]"
+                },
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+                }
               }
             }
+          ],
+          "networkSecurityGroup": {
+            "id": "[variables('nsgResourceId')]"
           }
-        ],
-        "networkSecurityGroup": {
-          "id": "[variables('nsgResourceId')]"
-        }
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Network/publicIPAddresses",
-      "apiVersion": "2022-09-01",
-      "name": "[variables('publicIPAddressName')]",
-      "location": "[parameters('location')]",
-      "sku": {
-        "name": "Basic"
-      },
-      "properties": {
-        "publicIPAllocationMethod": "Dynamic",
-        "publicIPAddressVersion": "IPv4",
-        "dnsSettings": {
-          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
         },
-        "idleTimeoutInMinutes": 4
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2022-11-01",
-      "name": "[parameters('vmName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "hardwareProfile": {
-          "vmSize": "[parameters('vmSize')]"
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+        ]
+      },
+      {
+        "type": "Microsoft.Network/publicIPAddresses",
+        "apiVersion": "2022-09-01",
+        "name": "[variables('publicIPAddressName')]",
+        "location": "[parameters('location')]",
+        "sku": {
+          "name": "Basic"
         },
-        "storageProfile": {
-          "osDisk": {
-            "createOption": "FromImage",
-            "managedDisk": {
-              "storageAccountType": "[variables('osDiskType')]"
-            }
+        "properties": {
+          "publicIPAllocationMethod": "Dynamic",
+          "publicIPAddressVersion": "IPv4",
+          "dnsSettings": {
+            "domainNameLabel": "[parameters('dnsLabelPrefix')]"
           },
-          "imageReference": "[variables('imageReference')[parameters('OSVersion')]]"
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
-            }
-          ]
-        },
-        "osProfile": {
-          "computerName": "[parameters('vmName')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "linuxConfiguration": {
-                  "disablePasswordAuthentication": true,
-                        "ssh": {
-                            "publicKeys": [
-                                {
-                                    "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
-                                    "keyData": "[reference(variables('sshKeyResourceId'), '2019-12-01').publicKey]"
-                                }
-                            ]
-                        }
-                    }
-         
-        },
-                "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": false
-                    }
-                }               
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "apiVersion": "2022-11-01",
-      "name": "[format('{0}/{1}', parameters('vmName'), variables('extensionName'))]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "publisher": "[variables('extensionPublisher')]",
-        "type": "[variables('extensionName')]",
-        "typeHandlerVersion": "[variables('extensionVersion')]",
-        "autoUpgradeMinorVersion": true,
-        "enableAutomaticUpgrade": true,
-        "settings": {
-          "AttestationConfig": {
-            "MaaSettings": {
-              "maaEndpoint": "[variables('maaEndpoint')]",
-              "maaTenantName": "[variables('maaTenantName')]"
-            }
-          }
+          "idleTimeoutInMinutes": 4
         }
       },
-      "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-      ]
-    }
-  ],
-  "outputs": {
-    "sshCommand": {
-      "type": "string",
-      "value": "[format('ssh {0}@{1}', parameters('adminUsername'), reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName')), '2021-05-01').dnsSettings.fqdn)]"
+      {
+        "type": "Microsoft.Compute/virtualMachines",
+        "apiVersion": "2022-11-01",
+        "name": "[parameters('vmName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "hardwareProfile": {
+            "vmSize": "[parameters('vmSize')]"
+          },
+          "storageProfile": {
+            "osDisk": {
+              "createOption": "FromImage",
+              "managedDisk": {
+                "storageAccountType": "[variables('osDiskType')]"
+              }
+            },
+            "imageReference": "[variables('imageReference')[parameters('OSVersion')]]"
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+              }
+            ]
+          },
+          "osProfile": {
+            "computerName": "[parameters('vmName')]",
+            "adminUsername": "[parameters('adminUsername')]",
+            "linuxConfiguration": {
+                    "disablePasswordAuthentication": true,
+                          "ssh": {
+                              "publicKeys": [
+                                  {
+                                      "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+                                      "keyData": "[reference(variables('sshKeyResourceId'), '2019-12-01').publicKey]"
+                                  }
+                              ]
+                          }
+                      }
+           
+          },
+                  "diagnosticsProfile": {
+                      "bootDiagnostics": {
+                          "enabled": false
+                      }
+                  }               
+        },
+        "dependsOn": [
+          "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+        ]
+      }
+    ],
+    "outputs": {
+      "sshCommand": {
+        "type": "string",
+        "value": "[format('ssh {0}@{1}', parameters('adminUsername'), reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName')), '2021-05-01').dnsSettings.fqdn)]"
+      }
     }
   }
-}
