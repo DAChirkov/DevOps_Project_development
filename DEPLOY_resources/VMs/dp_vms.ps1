@@ -34,7 +34,7 @@ $Params = @{
   Publisher          = 'Microsoft.Azure.Extensions'
   ExtensionType      = 'CustomScript'
   TypeHandlerVersion = '2.1'
-  Settings          = @{fileUris = @('https://raw.githubusercontent.com/DAChirkov/DevOps_Project/deploy_sh/DATA/ARM_Templates/Extensions/install_ansible.sh'); commandToExecute = 'sudo sh install_ansible.sh'}
+  Settings          = @{fileUris = @('https://raw.githubusercontent.com/DAChirkov/DevOps_Project/main/DATA/ARM_Templates/Extensions/install_ansible.sh'); commandToExecute = 'sudo sh install_ansible.sh'}
 }
 Set-AzVMExtension @Params
 
