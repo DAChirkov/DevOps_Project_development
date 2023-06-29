@@ -1,14 +1,16 @@
-- name: "Example_1"
+- name: Installing basic software
   gather_facts: true
-  hosts: AllServers
   become: true
+  serial: 5
+  hosts: all
   remote_user: azroot
 
   tasks:
-    - name: "Install general software"
+    - name: Installing packages
       apt:
         name:
         - mc
         - htop
+        - tree
         state: present
         update_cache: yes
