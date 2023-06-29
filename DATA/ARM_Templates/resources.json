@@ -25,6 +25,10 @@
       "type": "string",
       "defaultValue": "SubNet2-AzProject"
     },
+    "subnetName3": {
+      "type": "string",
+      "defaultValue": "SubNet3-AzProject"
+    },
     "networkSecurityGroupName": {
       "type": "string",
       "defaultValue": "NSG-AzProject"
@@ -47,7 +51,8 @@
   },
   "variables": {
     "subnetAddressPrefix_1": "10.1.0.0/24",
-    "subnetAddressPrefix_2": "10.1.1.0/24",    
+    "subnetAddressPrefix_2": "10.1.1.0/24",
+    "subnetAddressPrefix_3": "10.1.2.0/24",    
     "addressPrefix": "10.1.0.0/16"
   },
   "resources": [
@@ -69,6 +74,19 @@
               "sourcePortRange": "*",
               "destinationAddressPrefix": "*",
               "destinationPortRange": "22"
+            }
+          },
+          {
+            "name": "SiteAllow_HTTP",
+            "properties": {
+              "priority": 999,
+              "protocol": "Tcp",
+              "access": "Allow",
+              "direction": "Inbound",
+              "sourceAddressPrefix": "*",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "80"
             }
           }
         ]
@@ -97,7 +115,13 @@
             "properties": {
               "addressPrefix": "[variables('subnetAddressPrefix_2')]" 
             }
-          }  
+          },
+          {
+          "name": "[parameters('subnetName3')]",
+            "properties": {
+              "addressPrefix": "[variables('subnetAddressPrefix_3')]" 
+            }
+          }    
         ]
       }    
     },

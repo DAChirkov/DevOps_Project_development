@@ -1,0 +1,7 @@
+upstream apache2 {
+        server 10.1.1.4:8080;
+        server 10.1.1.5:8080;
+        server 10.1.1.6:8080;
+        server 10.1.1.7:8080;
+        server 10.1.1.8:8080;
+}

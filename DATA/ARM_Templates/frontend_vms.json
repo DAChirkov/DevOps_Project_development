@@ -16,6 +16,9 @@
         "type": "string",
         "defaultValue": "azroot"
       },
+      "subnetName": {
+        "type": "string"
+      },
       "dnsLabelPrefix": {
         "type": "string",
         "defaultValue": "[toLower(parameters('vmName'))]"
@@ -48,8 +51,7 @@
             "nsgResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Network/networkSecurityGroups', variables('nsgName'))]",
         "vnetName": "vNet-AzProject",
             "vnetId": "[resourceId(variables('MainRG'), 'Microsoft.Network/virtualNetworks',variables('vnetName'))]",        
-        "subnetName": "SubNet1-AzProject",
-            "subnetResourceId": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]",   
+            "subnetResourceId": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]",   
         "publicIPAddressName": "[format('{0}_PublicIP', parameters('vmName'))]",
         "networkInterfaceName": "[format('{0}_NetInt', parameters('vmName'))]",
         "osDiskType": "Standard_LRS"
