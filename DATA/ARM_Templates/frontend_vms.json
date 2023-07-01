@@ -33,6 +33,9 @@
       },
       "vmSize": {
         "type": "string"
+      },
+      "sshKeyName": {
+        "type": "string"
       }
     },
     "variables": {
@@ -45,8 +48,7 @@
         }
       },
         "MainRG": "RG_AzProject_VMs",
-        "sshKeyName": "SSHKeysForManage",
-            "sshKeyResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Compute/sshPublicKeys', variables('sshKeyName'))]",
+        "sshKeyResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Compute/sshPublicKeys', parameters('sshKeyName'))]",
         "nsgName": "NSG-AzProject",
             "nsgResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Network/networkSecurityGroups', variables('nsgName'))]",
         "vnetName": "vNet-AzProject",

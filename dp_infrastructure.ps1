@@ -7,8 +7,8 @@ $NumberOfClients = Read-Host "Enter the number of backend VMs (0-3)"
 $TemplateMain = '.\DATA\ARM_Templates\resources.json'
 $TemplateFrontend = '.\DATA\ARM_Templates\frontend_vms.json'
 $TemplateBackend = '.\DATA\ARM_Templates\backend_vms.json'
-$KeyForServers = Get-Content -Path ".\DATA\Public_keys\frontend.txt"
-$KeyForClients = Get-Content -Path ".\DATA\Public_keys\backend.txt"
+$KeyForServers = Get-Content -Path ".\DATA\Public_keys\manage.txt"
+$KeyForClients = Get-Content -Path ".\DATA\Public_keys\clients.txt"
 
 #Begin deploying
 New-AzResourceGroup -Name $RG -Location $Location -Force 
@@ -26,7 +26,8 @@ New-AzResourceGroupDeployment `
         -TemplateFile $TemplateFrontend `
         -vmName $VMNameAnsible `
         -vmSize $VMSize `
-        -subnetName "SubNet1-AzProject"
+        -subnetName "SubNet1-AzProject" `
+        -sshKeyName "SSHKeysForManage"
 
                 #Installing ansible
                 $Params = @{
@@ -40,13 +41,14 @@ New-AzResourceGroupDeployment `
                 }
                 Set-AzVMExtension @Params
 
-      #Deploying a Nginx VM
-      New-AzResourceGroupDeployment `
-        -ResourceGroupName $RG `
-        -TemplateFile $TemplateFrontend `
-        -vmName $VMNameNginx `
-        -vmSize $VMSize `
-        -subnetName "SubNet2-AzProject"
+      # #Deploying a Nginx VM
+      # New-AzResourceGroupDeployment `
+      #   -ResourceGroupName $RG `
+      #   -TemplateFile $TemplateFrontend `
+      #   -vmName $VMNameNginx `
+      #   -vmSize $VMSize `
+      #   -subnetName "SubNet2-AzProject"
+      #   -sshKeyName "SSHKeysForClients"
 
       #Deploying backend VMs
       if ($NumberOfClients -ne 0) {
