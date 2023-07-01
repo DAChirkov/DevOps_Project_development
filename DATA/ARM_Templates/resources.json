@@ -72,7 +72,7 @@
               "direction": "Inbound",
               "sourceAddressPrefix": "178.134.247.73",
               "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
+              "destinationAddressPrefix": "10.1.0.4",
               "destinationPortRange": "22"
             }
           },
@@ -85,7 +85,7 @@
               "direction": "Inbound",
               "sourceAddressPrefix": "*",
               "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
+              "destinationAddressPrefix": "10.1.1.0/24",
               "destinationPortRange": "80"
             }
           }

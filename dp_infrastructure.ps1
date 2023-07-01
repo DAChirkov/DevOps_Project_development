@@ -41,14 +41,14 @@ New-AzResourceGroupDeployment `
                 }
                 Set-AzVMExtension @Params
 
-      # #Deploying a Nginx VM
-      # New-AzResourceGroupDeployment `
-      #   -ResourceGroupName $RG `
-      #   -TemplateFile $TemplateFrontend `
-      #   -vmName $VMNameNginx `
-      #   -vmSize $VMSize `
-      #   -subnetName "SubNet2-AzProject"
-      #   -sshKeyName "SSHKeysForClients"
+      #Deploying a Nginx VM
+      New-AzResourceGroupDeployment `
+        -ResourceGroupName $RG `
+        -TemplateFile $TemplateFrontend `
+        -vmName $VMNameNginx `
+        -vmSize $VMSize `
+        -subnetName "SubNet2-AzProject"
+        -sshKeyName "SSHKeysForClients"
 
       #Deploying backend VMs
       if ($NumberOfClients -ne 0) {
