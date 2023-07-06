@@ -52,7 +52,7 @@
   "variables": {
     "subnetAddressPrefix_1": "10.1.0.0/24",
     "subnetAddressPrefix_2": "10.1.1.0/24",
-    "subnetAddressPrefix_3": "10.1.2.0/24",    
+    "subnetAddressPrefix_3": "10.1.2.0/24",
     "addressPrefix": "10.1.0.0/16"
   },
   "resources": [
@@ -105,43 +105,43 @@
         },
         "subnets": [
           {
-          "name": "[parameters('subnetName1')]",
+            "name": "[parameters('subnetName1')]",
             "properties": {
               "addressPrefix": "[variables('subnetAddressPrefix_1')]"
             }
-          },  
+          },
           {
-          "name": "[parameters('subnetName2')]",
+            "name": "[parameters('subnetName2')]",
             "properties": {
-              "addressPrefix": "[variables('subnetAddressPrefix_2')]" 
+              "addressPrefix": "[variables('subnetAddressPrefix_2')]"
             }
           },
           {
-          "name": "[parameters('subnetName3')]",
+            "name": "[parameters('subnetName3')]",
             "properties": {
-              "addressPrefix": "[variables('subnetAddressPrefix_3')]" 
+              "addressPrefix": "[variables('subnetAddressPrefix_3')]"
             }
-          }    
+          }
         ]
-      }    
+      }
     },
     {
       "type": "Microsoft.Compute/sshPublicKeys",
       "apiVersion": "2022-11-01",
       "location": "[parameters('location')]",
       "name": "[parameters('SSHStorageName')]",
-      "properties": { 
-             "publicKey": "[parameters('PublicKeyForServers')]"
-            }
+      "properties": {
+        "publicKey": "[parameters('PublicKeyForServers')]"
+      }
     },
     {
       "type": "Microsoft.Compute/sshPublicKeys",
       "apiVersion": "2022-11-01",
       "location": "[parameters('location')]",
       "name": "[parameters('SSHStorageNameClients')]",
-      "properties": { 
-             "publicKey": "[parameters('PublicKeyForClients')]"
-            }
-    }      
+      "properties": {
+        "publicKey": "[parameters('PublicKeyForClients')]"
+      }
+    }
   ]
 }

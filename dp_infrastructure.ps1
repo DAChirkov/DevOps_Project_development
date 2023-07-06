@@ -20,44 +20,44 @@ New-AzResourceGroupDeployment `
   -PublicKeyForServers $KeyForServers `
   -PublicKeyForClients $KeyForClients
 
-      #Deploying an Ansible VM
-      New-AzResourceGroupDeployment `
-        -ResourceGroupName $RG `
-        -TemplateFile $TemplateFrontend `
-        -vmName $VMNameAnsible `
-        -vmSize $VMSize `
-        -subnetName "SubNet1-AzProject" `
-        -sshKeyName "SSHKeysForManage"
+#Deploying an Ansible VM
+New-AzResourceGroupDeployment `
+  -ResourceGroupName $RG `
+  -TemplateFile $TemplateFrontend `
+  -vmName $VMNameAnsible `
+  -vmSize $VMSize `
+  -subnetName "SubNet1-AzProject" `
+  -sshKeyName "SSHKeysForManage"
 
-                #Installing ansible
-                $Params = @{
-                  ResourceGroupName  = $RG
-                  VMName             = $VMNameAnsible
-                  Name               = 'CustomScript'
-                  Publisher          = 'Microsoft.Azure.Extensions'
-                  ExtensionType      = 'CustomScript'
-                  TypeHandlerVersion = '2.1'
-                  Settings           = @{fileUris = @('https://raw.githubusercontent.com/DAChirkov/DevOps_Project/main/DATA/ARM_Templates/Extensions/install_ansible.sh'); commandToExecute = 'sudo sh install_ansible.sh' }
-                }
-                Set-AzVMExtension @Params
+#Installing ansible
+$Params = @{
+  ResourceGroupName  = $RG
+  VMName             = $VMNameAnsible
+  Name               = 'CustomScript'
+  Publisher          = 'Microsoft.Azure.Extensions'
+  ExtensionType      = 'CustomScript'
+  TypeHandlerVersion = '2.1'
+  Settings           = @{fileUris = @('https://raw.githubusercontent.com/DAChirkov/DevOps_Project/main/DATA/ARM_Templates/Extensions/install_ansible.sh'); commandToExecute = 'sudo sh install_ansible.sh' }
+}
+Set-AzVMExtension @Params
 
-      #Deploying a Nginx VM
-      New-AzResourceGroupDeployment `
-        -ResourceGroupName $RG `
-        -TemplateFile $TemplateFrontend `
-        -vmName $VMNameNginx `
-        -vmSize $VMSize `
-        -subnetName "SubNet2-AzProject"
-        -sshKeyName "SSHKeysForClients"
+#Deploying a Nginx VM
+New-AzResourceGroupDeployment `
+  -ResourceGroupName $RG `
+  -TemplateFile $TemplateFrontend `
+  -vmName $VMNameNginx `
+  -vmSize $VMSize `
+  -subnetName "SubNet2-AzProject"
+-sshKeyName "SSHKeysForClients"
 
-      #Deploying backend VMs
-      if ($NumberOfClients -ne 0) {
-        New-AzResourceGroupDeployment `
-          -ResourceGroupName $RG `
-          -TemplateFile $TemplateBackend `
-          -numberOfInstances $NumberOfClients `
-          -vmSize $VMSize
-      }
+#Deploying backend VMs
+if ($NumberOfClients -ne 0) {
+  New-AzResourceGroupDeployment `
+    -ResourceGroupName $RG `
+    -TemplateFile $TemplateBackend `
+    -numberOfInstances $NumberOfClients `
+    -vmSize $VMSize
+}
 
 #Show IP-Addresses
  (Get-AzNetworkInterface -ResourceGroupName $RG).IpConfigurations.PrivateIpAddress

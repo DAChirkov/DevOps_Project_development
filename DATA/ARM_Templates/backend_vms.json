@@ -28,7 +28,7 @@
       "type": "int",
       "minValue": 1,
       "maxValue": 3
-    }    
+    }
   },
   "variables": {
     "imageReference": {
@@ -39,18 +39,18 @@
         "version": "latest"
       }
     },
-      "MainRG": "RG_AzProject_VMs",
-      "vmName": "VM-BKN", 
-      "sshKeyName": "SSHKeysForClients",
-      "nsgName": "NSG-AzProject",
-      "vnetName": "vNet-AzProject",
-      "subnetName": "SubNet3-AzProject",
-      "osDiskType": "Standard_LRS",
-      "networkInterfaceName": "VM_LAN",
-        "sshKeyResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Compute/sshPublicKeys', variables('sshKeyName'))]",           
-        "nsgResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Network/networkSecurityGroups', variables('nsgName'))]",
-        "vnetId": "[resourceId(variables('MainRG'), 'Microsoft.Network/virtualNetworks',variables('vnetName'))]",        
-        "subnetResourceId": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]"
+    "MainRG": "RG_AzProject_VMs",
+    "vmName": "VM-BKN",
+    "sshKeyName": "SSHKeysForClients",
+    "nsgName": "NSG-AzProject",
+    "vnetName": "vNet-AzProject",
+    "subnetName": "SubNet3-AzProject",
+    "osDiskType": "Standard_LRS",
+    "networkInterfaceName": "VM_LAN",
+    "sshKeyResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Compute/sshPublicKeys', variables('sshKeyName'))]",
+    "nsgResourceId": "[resourceId(variables('MainRG'), 'Microsoft.Network/networkSecurityGroups', variables('nsgName'))]",
+    "vnetId": "[resourceId(variables('MainRG'), 'Microsoft.Network/virtualNetworks',variables('vnetName'))]",
+    "subnetResourceId": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]"
   },
   "resources": [
     {
@@ -58,10 +58,10 @@
       "apiVersion": "2022-09-01",
       "name": "[concat(variables('networkInterfaceName'), '-', copyIndex(1))]",
       "location": "[parameters('location')]",
-        "copy": {
-          "name": "networkInterfaceNameCopy",
-          "count": "[parameters('numberOfInstances')]"
-        },
+      "copy": {
+        "name": "networkInterfaceNameCopy",
+        "count": "[parameters('numberOfInstances')]"
+      },
       "properties": {
         "ipConfigurations": [
           {
@@ -84,10 +84,10 @@
       "apiVersion": "2022-11-01",
       "name": "[concat(variables('vmName'), '-', copyIndex(1))]",
       "location": "[parameters('location')]",
-        "copy": {
-          "name": "vmNameCopy",
-          "count": "[parameters('numberOfInstances')]"
-        },
+      "copy": {
+        "name": "vmNameCopy",
+        "count": "[parameters('numberOfInstances')]"
+      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
@@ -112,23 +112,23 @@
           "computerName": "[concat(variables('vmName'), '-', copyIndex(1))]",
           "adminUsername": "[parameters('adminUsername')]",
           "linuxConfiguration": {
-                  "disablePasswordAuthentication": true,
-                        "ssh": {
-                            "publicKeys": [
-                                {
-                                    "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
-                                    "keyData": "[reference(variables('sshKeyResourceId'), '2019-12-01').publicKey]"
-                                }
-                            ]
-                        }
-                    }
-         
+            "disablePasswordAuthentication": true,
+            "ssh": {
+              "publicKeys": [
+                {
+                  "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+                  "keyData": "[reference(variables('sshKeyResourceId'), '2019-12-01').publicKey]"
+                }
+              ]
+            }
+          }
+
         },
-                "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": false
-                    }
-                }               
+        "diagnosticsProfile": {
+          "bootDiagnostics": {
+            "enabled": false
+          }
+        }
       },
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('networkInterfaceName'), '-', copyIndex(1)))]"
