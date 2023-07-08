@@ -6,7 +6,7 @@ if ($RGCheck.ResourceGroupName -eq $RG) {
    Remove-AzResourceGroup -Name $RG -Force
    if ($RGCheck.ResourceGroupName -eq $RG)
    { Write-Host "$RG has been successfully removed!" -ForegroundColor Green }
-   else 
+   else
    { Write-Host "There is some problem with removing "$RG"! The group hasn't been removed!" -ForegroundColor Red }        
 }
 else 

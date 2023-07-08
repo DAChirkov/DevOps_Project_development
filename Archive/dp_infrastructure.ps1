@@ -4,11 +4,11 @@ $VMNameNginx = 'VM-FRN-1'
 $Location = 'East US 2'
 $VMSize = 'Standard_B1ls'
 $NumberOfClients = Read-Host "Enter the number of backend VMs (0-3)"
-$TemplateMain = '.\DATA\ARM_Templates\resources.json'
-$TemplateFrontend = '.\DATA\ARM_Templates\frontend_vms.json'
-$TemplateBackend = '.\DATA\ARM_Templates\backend_vms.json'
-$KeyForServers = Get-Content -Path ".\DATA\Public_keys\manage.txt"
-$KeyForClients = Get-Content -Path ".\DATA\Public_keys\clients.txt"
+$TemplateMain = '.\Archive\ARM\resources.json'
+$TemplateFrontend = '.\Archive\ARM\frontend_vms.json'
+$TemplateBackend = '.\Archive\ARM\backend_vms.json'
+$KeyForServers = Get-Content -Path ".\Archive\Public_keys\manage.txt"
+$KeyForClients = Get-Content -Path ".\Archive\Public_keys\clients.txt"
 
 #Begin deploying
 New-AzResourceGroup -Name $RG -Location $Location -Force 
@@ -37,7 +37,7 @@ $Params = @{
   Publisher          = 'Microsoft.Azure.Extensions'
   ExtensionType      = 'CustomScript'
   TypeHandlerVersion = '2.1'
-  Settings           = @{fileUris = @('https://raw.githubusercontent.com/DAChirkov/DevOps_Project/main/DATA/ARM_Templates/Extensions/install_ansible.sh'); commandToExecute = 'sudo sh install_ansible.sh' }
+  Settings           = @{fileUris = @('https://raw.githubusercontent.com/DAChirkov/DevOps_Project/main/Archive/ARM/Extensions/install_ansible.sh'); commandToExecute = 'sudo sh install_ansible.sh' }
 }
 Set-AzVMExtension @Params
 
