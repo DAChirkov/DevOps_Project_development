@@ -24,7 +24,7 @@ variable "resource_subnet3" {
   default     = "SubNet3-AzProject"
   description = "Name of the subnet 3"
 }
-variable "resource_main-nsg" {
+variable "resource_nsg_main" {
   default     = "NSG-AzProject"
   description = "Name of the main NSG"
 }
