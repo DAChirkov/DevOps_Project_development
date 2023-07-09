@@ -7,6 +7,7 @@ env:
     ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
     ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}
     ARM_TENANT_ID: ${{secrets.AZURE_TENANT_ID}}
+    ARM_STORAGE_SECRET: ${{secrets.AZURE_STORAGE_SECRET}}
 
 jobs:
   terraform_plan:
@@ -21,17 +22,11 @@ jobs:
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Terraform
       uses: hashicorp/setup-terraform@v1
-
-    - name: Set Azure Storage Access Key
-      run: echo "AZURE_STORAGE_SECRET=${{ secrets.AZURE_STORAGE_SECRET }}" >> $GITHUB_ENV
-    
+  
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -backend-config="access_key=${{env.AZURE_STORAGE_SECRET}}"
       working-directory: ${{env.ROOT_PATH}}
       
-    - name: Configure Terraform Backend
-      run: terraform init -backend-config="access_key=${{ env.AZURE_STORAGE_SECRET }}"
- 
     - name: Terraform Plan
       run: terraform plan
       working-directory: ${{env.ROOT_PATH}} 
@@ -50,16 +45,10 @@ jobs:
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Terraform
         uses: hashicorp/setup-terraform@v1
-
-      - name: Set Azure Storage Access Key
-        run: echo "azure_storage_secret=$AZURE_STORAGE_SECRET" >> $GITHUB_ENV
-        
+    
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config="access_key=${{ env.AZURE_STORAGE_SECRET }}"
         working-directory: ${{env.ROOT_PATH}} 
-
-      - name: Import existing resources
-        run: terraform import
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
