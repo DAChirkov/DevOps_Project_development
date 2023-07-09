@@ -8,6 +8,11 @@ variable "resource_group_name" {
   description = "Name of the resource group"
 }
 
+variable "resource_ssh_clients_key" {
+  default     = "SSHKeysForClients"
+  description = "Name of the SSH keys for clients"
+}
+
 variable "resource_virtual_network" {
   default     = "vNet-AzProject"
   description = "Name of the virtual network"

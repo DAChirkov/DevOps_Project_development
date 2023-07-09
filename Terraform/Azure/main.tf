@@ -22,9 +22,13 @@ resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
 }
 
-###############################
-#ADD SSH KEYS 
-###############################
+resource "azurerm_ssh_public_key" "ssh_clients_key" {
+  depends_on          = [azurerm_resource_group.rg]
+  resource_group_name = var.resource_group_name
+  location            = var.resource_group_location
+  name                = var.resource_ssh_clients_key
+  public_key          = file("./Pre-requisites/_SSH_public_keys/clients.txt")
+}
 
 resource "azurerm_virtual_network" "vnet" {
   depends_on          = [azurerm_resource_group.rg]
