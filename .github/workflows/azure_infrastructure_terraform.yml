@@ -23,12 +23,15 @@ jobs:
       uses: hashicorp/setup-terraform@v1
 
     - name: Set Azure Storage Access Key
-      run: echo "azure_storage_secret=$AZURE_STORAGE_SECRET" >> $GITHUB_ENV
+      run: echo "AZURE_STORAGE_SECRET=${{ secrets.AZURE_STORAGE_SECRET }}" >> $GITHUB_ENV
     
     - name: Terraform Init
       run: terraform init
-      working-directory: ${{env.ROOT_PATH}} 
-
+      working-directory: ${{env.ROOT_PATH}}
+      
+    - name: Configure Terraform Backend
+      run: terraform init -backend-config="access_key=${{ env.AZURE_STORAGE_SECRET }}"
+ 
     - name: Terraform Plan
       run: terraform plan
       working-directory: ${{env.ROOT_PATH}} 

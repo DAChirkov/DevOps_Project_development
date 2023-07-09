@@ -9,7 +9,6 @@ terraform {
     storage_account_name = "tfstate1481566890"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
-    access_key           = var.azure_storage_secret
   }
 }
 
