@@ -22,6 +22,7 @@ data "azurerm_resource_group" "existing" {
 }
 
 resource "azurerm_resource_group" "rg" {
+  count    = data.azurerm_resource_group.existing ? 0 : 1
   location = var.resource_group_location
   name     = var.resource_group_name
 }
