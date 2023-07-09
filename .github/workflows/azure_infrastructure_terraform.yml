@@ -53,30 +53,4 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
         working-directory: ${{env.ROOT_PATH}} 
-
-      - name: Get Terraform Outputs
-        id: get_outputs
-        run: |
-          echo "RESOURCE_GROUP_NAME=$(terraform output -raw resource_group_name)" >> $GITHUB_ENV
-          echo "RESOURCE_VIRTUAL_NETWORK_NAME=$(terraform output -raw resource_virtual_network_name)" >> $GITHUB_ENV
-          echo "RESOURCE_VIRTUAL_NETWORK_ADDRESS_SPACE=$(terraform output -json resource_virtual_network_address_space)" >> $GITHUB_ENV
-          echo "RESOURCE_SUBNET1_NAME=$(terraform output -json resource_subnet1_name)" >> $GITHUB_ENV
-          echo "RESOURCE_SUBNET1_ADDRESS_PREFIXES=$(terraform output -json resource_subnet1_address_prefixes)" >> $GITHUB_ENV
-          echo "RESOURCE_SUBNET2_NAME=$(terraform output -json resource_subnet2_name)" >> $GITHUB_ENV
-          echo "RESOURCE_SUBNET2_ADDRESS_PREFIXES=$(terraform output -json resource_subnet2_address_prefixes)" >> $GITHUB_ENV
-          echo "RESOURCE_SUBNET3_NAME=$(terraform output -json resource_subnet3_name)" >> $GITHUB_ENV
-          echo "RESOURCE_SUBNET3_ADDRESS_PREFIXES=$(terraform output -json resource_subnet3_address_prefixes)" >> $GITHUB_ENV
-          echo "RESOURCE_MAIN_NSG_NAME=$(terraform output -raw resource_main_nsg_name)" >> $GITHUB_ENV
-          
-      - name: Use Terraform Outputs
-        run: |
-          echo "Resource Group Name: $RESOURCE_GROUP_NAME"
-          echo "Resource Virtual Network Name: $RESOURCE_VIRTUAL_NETWORK_NAME"
-          echo "Resource Virtual Network Address Space: $RESOURCE_VIRTUAL_NETWORK_ADDRESS_SPACE"
-          echo "Resource Subnet 1 Name: $RESOURCE_SUBNET1_NAME"
-          echo "Resource Subnet 1 Address Prefixes: $RESOURCE_SUBNET1_ADDRESS_PREFIXES"
-          echo "Resource Subnet 2 Name: $RESOURCE_SUBNET2_NAME"
-          echo "Resource Subnet 2 Address Prefixes: $RESOURCE_SUBNET2_ADDRESS_PREFIXES"
-          echo "Resource Subnet 3 Name: $RESOURCE_SUBNET3_NAME"
-          echo "Resource Subnet 3 Address Prefixes: $RESOURCE_SUBNET3_ADDRESS_PREFIXES"
-          echo "Resource Main NSG Name: $RESOURCE_MAIN_NSG_NAME"
+        

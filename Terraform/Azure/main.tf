@@ -26,7 +26,12 @@ resource "azurerm_resource_group" "rg" {
 #ADD SSH KEYS 
 ###############################
 
+data "azurerm_resource_group" "existing" {
+  name = var.resource_group_name
+}
+
 resource "azurerm_virtual_network" "vnet" {
+  depends_on          = [data.azurerm_resource_group.existing]
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
   name                = var.resource_virtual_network
@@ -55,6 +60,7 @@ resource "azurerm_subnet" "snet3" {
 }
 
 resource "azurerm_network_security_group" "main-nsg" {
+  depends_on          = [data.azurerm_resource_group.existing]
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
   name                = var.resource_main-nsg
