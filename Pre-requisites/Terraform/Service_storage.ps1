@@ -1,6 +1,6 @@
 #Connect-AzAccount
 
-$RGName = "RG_AzProject_VMs"
+$RGName = "RG_AzProject"
 $location = "eastus2"
 $storageAccountName = "tfstate$(Get-Random)"
 $containerName = "tfstate"
