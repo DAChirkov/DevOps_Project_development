@@ -5,14 +5,16 @@ terraform {
       version = "3.63.0"
     }
   }
+  backend "azurerm" {
+    storage_account_name = "tfstate1481566890"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+    access_key           = var.azure_storage_secret
+  }
 }
 
 provider "azurerm" {
   features {}
-}
-
-module "terraform_sync" {
-  source = "./"
 }
 
 resource "azurerm_resource_group" "rg" {

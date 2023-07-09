@@ -1,3 +1,6 @@
+variable "azure_storage_secret" {
+  description = "Access key for Azure Storage Account"
+}
 variable "resource_group_location" {
   default     = "eastus2"
   description = "Location of the resource group"

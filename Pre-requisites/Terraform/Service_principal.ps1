@@ -1,3 +1,5 @@
+#Connect-AzAccount
+
 $subscription_id = (Get-AzSubscription).Id
 $tenant_id = (Get-AzTenant).Id
 
