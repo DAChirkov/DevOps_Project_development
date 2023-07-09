@@ -21,15 +21,13 @@ jobs:
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
-      with:
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
     - name: Terraform Init
       run: terraform init
       working-directory: ${{env.ROOT_PATH}} 
 
     - name: Terraform Plan
-      run: terraform plan
+      run: terraform plan -out=tfplan
       working-directory: ${{env.ROOT_PATH}} 
 
   terraform_apply:
@@ -46,13 +44,30 @@ jobs:
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-        with:
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
   
       - name: Terraform Init
         run: terraform init
         working-directory: ${{env.ROOT_PATH}} 
   
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan
         working-directory: ${{env.ROOT_PATH}} 
+
+      - name: Get Terraform Outputs
+        id: get_outputs
+        run: |
+          echo "::set-output name=resource_group_name::$(terraform output -raw resource_group_name)"
+          echo "::set-output name=resource_virtual_network::$(terraform output -json resource_virtual_network)"
+          echo "::set-output name=resource_subnet1::$(terraform output -json resource_subnet1)"
+          echo "::set-output name=resource_subnet2::$(terraform output -json resource_subnet2)"
+          echo "::set-output name=resource_subnet3::$(terraform output -json resource_subnet3)"
+          echo "::set-output name=resource_main_nsg_name::$(terraform output -raw resource_main-nsg_name)"
+
+      - name: Use Terraform Outputs
+        run: |
+          echo "Resource Group Name: ${{ steps.get_outputs.outputs.resource_group_name }}"
+          echo "Resource Virtual Network: ${{ steps.get_outputs.outputs.resource_virtual_network }}"
+          echo "Resource Subnet 1: ${{ steps.get_outputs.outputs.resource_subnet1 }}"
+          echo "Resource Subnet 2: ${{ steps.get_outputs.outputs.resource_subnet2 }}"
+          echo "Resource Subnet 3: ${{ steps.get_outputs.outputs.resource_subnet3 }}"
+          echo "Resource Main NSG Name: ${{ steps.get_outputs.outputs.resource_main_nsg_name }}"
