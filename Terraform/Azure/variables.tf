@@ -12,6 +12,11 @@ variable "resource_ssh_clients_key" {
   default     = "SSHKeysForClients"
   description = "Name of the SSH keys for clients"
 }
+variable "resource_ssh_clients_public_key" {
+  type    = string
+  default = "test test"
+}
+
 
 variable "resource_virtual_network" {
   default     = "vNet-AzProject"
