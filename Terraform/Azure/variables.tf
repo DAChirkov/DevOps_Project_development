@@ -47,3 +47,44 @@ variable "resource_nsg_main" {
   default     = "NSG-AzProject"
   description = "Name of the main NSG"
 }
+
+variable "vms_size" {
+  default     = "Standard_B1ls"
+  description = "Size for VMs"
+}
+variable "image_reference" {
+  type = object({
+    publisher = string
+    offer     = string
+    sku       = string
+    version   = string
+  })
+  default = {
+    publisher = "Debian"
+    offer     = "Debian-11"
+    sku       = "11"
+    version   = "latest"
+  }
+}
+variable "storage_os_disk" {
+  type = object({
+    offer   = string
+    sku     = string
+    version = string
+  })
+  default = {
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+}
+variable "os_profile" {
+  default     = "azroot"
+  description = "Name of admin username"
+}
+
+variable "manage_prefix" {
+  default     = "vm-mng-1"
+  description = "Management server prefix"
+}
+
