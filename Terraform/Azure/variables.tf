@@ -68,9 +68,9 @@ variable "image_reference" {
 }
 variable "storage_os_disk" {
   type = object({
-    offer   = string
-    sku     = string
-    version = string
+    caching           = string
+    create_option     = string
+    managed_disk_type = string
   })
   default = {
     caching           = "ReadWrite"
