@@ -120,5 +120,5 @@ module "frontend_vms" {
   subnet_id                 = azurerm_subnet.snet2.id
   network_security_group_id = azurerm_network_security_group.nsg_main.id
   public_key                = azurerm_ssh_public_key.ssh_clients_key.public_key
-  vm_count                  = 1
+  vm_count                  = 2
 }
