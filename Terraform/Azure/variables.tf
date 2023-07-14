@@ -69,16 +69,15 @@ variable "image_reference" {
 variable "storage_os_disk" {
   type = object({
     caching           = string
-    create_option     = string
     managed_disk_type = string
   })
   default = {
     caching           = "ReadWrite"
-    create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
 }
 variable "os_profile" {
+  type        = string
   default     = "azroot"
   description = "Name of admin username"
 }
