@@ -111,7 +111,8 @@ data "azurerm_key_vault_secret" "ssh_clients_key" {
   key_vault_id = azurerm_ssh_public_key.ssh_clients_key.id
 }
 
-#VM for manage
+# VM for manage
+# Create public IP
 resource "azurerm_public_ip" "manage_server" {
   resource_group_name     = var.resource_group_name
   location                = var.resource_group_location
@@ -122,6 +123,7 @@ resource "azurerm_public_ip" "manage_server" {
   idle_timeout_in_minutes = 4
 }
 
+# Create network interface
 resource "azurerm_network_interface" "manage_server" {
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
@@ -134,12 +136,16 @@ resource "azurerm_network_interface" "manage_server" {
   }
 }
 
+# Connect the security group to the network interface
+resource "azurerm_network_interface_security_group_association" "manage_server" {
+  network_interface_id      = azurerm_network_interface.manage_server.id
+  network_security_group_id = azurerm_network_security_group.nsg_main.id
+}
+
 resource "azurerm_virtual_machine" "manage_server" {
   depends_on = [
     azurerm_resource_group.rg,
-    azurerm_network_security_group.nsg_main,
-    azurerm_ssh_public_key.ssh_servers_key,
-    azurerm_network_interface
+    azurerm_ssh_public_key.ssh_servers_key
   ]
   resource_group_name   = var.resource_group_name
   location              = var.resource_group_location
@@ -162,12 +168,14 @@ resource "azurerm_virtual_machine" "manage_server" {
   os_profile {
     computer_name  = var.manage_prefix
     admin_username = var.os_profile.admin_username
+
     os_profile_linux_config {
       disable_password_authentication = true
-    }
-    ssh_keys {
-      path     = "/home/${azurerm_virtual_machine.manage_server.admin_username}/.ssh/authorized_keys"
-      key_data = data.azurerm_key_vault_secret.ssh_servers_key.value
+
+      ssh_keys {
+        path     = "/home/${azurerm_virtual_machine.manage_server.admin_username}/.ssh/authorized_keys"
+        key_data = data.azurerm_key_vault_secret.ssh_servers_key.value
+      }
     }
   }
 }
