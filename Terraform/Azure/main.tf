@@ -28,7 +28,7 @@ resource "azurerm_ssh_public_key" "ssh_clients_key" {
   location            = var.resource_group_location
   name                = var.resource_ssh_clients_key
   properties = {
-    publicKey = var.resource_ssh_clients_public_key
+    public_key = var.resource_ssh_clients_public_key
   }
 }
 
