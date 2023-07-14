@@ -104,11 +104,11 @@ resource "azurerm_network_security_rule" "nsg_main_http" {
 
 data "azurerm_key_vault_secret" "ssh_servers_key" {
   name         = var.resource_ssh_servers_key
-  key_vault_id = data.azurerm_key_vault.ssh_servers_key.id
+  key_vault_id = azurerm_ssh_public_key.ssh_servers_key.id
 }
 data "azurerm_key_vault_secret" "ssh_clients_key" {
   name         = var.resource_ssh_clients_key
-  key_vault_id = data.azurerm_key_vault.ssh_clients_key.id
+  key_vault_id = azurerm_ssh_public_key.ssh_clients_key.id
 }
 
 #VM for manage
@@ -162,12 +162,12 @@ resource "azurerm_virtual_machine" "manage_server" {
   os_profile {
     computer_name  = var.manage_prefix
     admin_username = var.os_profile.admin_username
+    os_profile_linux_config {
+      disable_password_authentication = true
+    }
     ssh_keys {
       path     = "/home/${azurerm_virtual_machine.manage_server.admin_username}/.ssh/authorized_keys"
       key_data = data.azurerm_key_vault_secret.ssh_servers_key.value
-    }
-    os_profile_linux_config {
-      disable_password_authentication = true
     }
   }
 }
