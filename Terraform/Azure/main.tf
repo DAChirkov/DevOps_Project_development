@@ -27,8 +27,11 @@ resource "azurerm_ssh_public_key" "ssh_clients_key" {
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
   name                = var.resource_ssh_clients_key
-  public_key          = file("./Pre-requisites/_SSH_public_keys/clients.txt")
+  properties = {
+    publicKey = "var_public_key"
+  }
 }
+
 
 resource "azurerm_virtual_network" "vnet" {
   depends_on          = [azurerm_resource_group.rg]
