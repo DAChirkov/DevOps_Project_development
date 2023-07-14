@@ -7,8 +7,8 @@ $NumberOfClients = Read-Host "Enter the number of backend VMs (0-3)"
 $TemplateMain = '.\Archive\ARM\resources.json'
 $TemplateFrontend = '.\Archive\ARM\frontend_vms.json'
 $TemplateBackend = '.\Archive\ARM\backend_vms.json'
-$KeyForServers = Get-Content -Path ".\Pre-requisites\_SSH_public_keys\manage.txt"
-$KeyForClients = Get-Content -Path ".\Pre-requisites\_SSH_public_keys\clients.txt"
+$KeyForServers = Get-Content -Path ".\Archive\SSH_public_keys\manage.txt"
+$KeyForClients = Get-Content -Path ".\Archive\SSH_public_keys\clients.txt"
 
 #Begin deploying
 New-AzResourceGroup -Name $RG -Location $Location -Force 

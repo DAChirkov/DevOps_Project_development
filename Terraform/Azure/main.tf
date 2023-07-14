@@ -22,6 +22,13 @@ resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
 }
 
+resource "azurerm_ssh_public_key" "ssh_servers_key" {
+  depends_on          = [azurerm_resource_group.rg]
+  resource_group_name = var.resource_group_name
+  location            = var.resource_group_location
+  name                = var.resource_ssh_servers_key
+  public_key          = var.resource_ssh_servers_public_key
+}
 resource "azurerm_ssh_public_key" "ssh_clients_key" {
   depends_on          = [azurerm_resource_group.rg]
   resource_group_name = var.resource_group_name
