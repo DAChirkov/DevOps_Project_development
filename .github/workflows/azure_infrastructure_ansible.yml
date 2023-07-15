@@ -42,7 +42,6 @@ jobs:
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
         "[ -d "/etc/ansible" ] &&
         sudo git -C /etc/ansible pull ||
-        sudo mkdir -p /etc/ansible && 
         sudo git clone -b ansible https://github.com/DAChirkov/DevOps_Project.git /etc/ansible"          
     
     - name: Start configuring frontend (Nginx) VMs
