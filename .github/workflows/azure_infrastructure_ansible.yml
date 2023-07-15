@@ -3,7 +3,7 @@ on: |
   workflow_dispatch
   push:
     branches:
-      - Ansible
+      - ansible
 env: 
     ARM_SSH_KEY: ${{secrets.AZURE_SSH_KEY}}
 
