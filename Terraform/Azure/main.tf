@@ -106,8 +106,8 @@ resource "azurerm_network_security_rule" "nsg_main_http" {
 
 module "vms_for_manage" {
   source                    = "./modules/vms_manage"
-  resource_group_name       = var.resource_group_name
-  resource_group_location   = var.resource_group_location
+  resource_group_name       = azurerm_resource_group.rg.name
+  resource_group_location   = azurerm_resource_group.rg.location
   subnet_id                 = azurerm_subnet.snet1.id
   network_security_group_id = azurerm_network_security_group.nsg_main.id
   public_key                = azurerm_ssh_public_key.ssh_servers_key.public_key
@@ -116,8 +116,8 @@ module "vms_for_manage" {
 
 module "frontend_vms" {
   source                    = "./modules/vms_frontend"
-  resource_group_name       = var.resource_group_name
-  resource_group_location   = var.resource_group_location
+  resource_group_name       = azurerm_resource_group.rg.name
+  resource_group_location   = azurerm_resource_group.rg.location
   subnet_id                 = azurerm_subnet.snet2.id
   network_security_group_id = azurerm_network_security_group.nsg_main.id
   public_key                = azurerm_ssh_public_key.ssh_clients_key.public_key
@@ -126,8 +126,8 @@ module "frontend_vms" {
 
 module "backend_vms" {
   source                    = "./modules/vms_backend"
-  resource_group_name       = var.resource_group_name
-  resource_group_location   = var.resource_group_location
+  resource_group_name       = azurerm_resource_group.rg.name
+  resource_group_location   = azurerm_resource_group.rg.location
   subnet_id                 = azurerm_subnet.snet3.id
   network_security_group_id = azurerm_network_security_group.nsg_main.id
   public_key                = azurerm_ssh_public_key.ssh_clients_key.public_key
