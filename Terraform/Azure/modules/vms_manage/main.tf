@@ -61,6 +61,6 @@ resource "azurerm_linux_virtual_machine" "manage_servers" {
   }
   admin_ssh_key {
     username   = var.os_profile
-    public_key = var.public_key
+    public_key = join("\n", var.public_key)
   }
 }

@@ -110,8 +110,11 @@ module "vms_for_manage" {
   resource_group_location   = azurerm_resource_group.rg.location
   subnet_id                 = azurerm_subnet.snet1.id
   network_security_group_id = azurerm_network_security_group.nsg_main.id
-  public_key                = azurerm_ssh_public_key.ssh_servers_key.public_key
-  vm_count                  = 1
+  public_key = [
+    azurerm_ssh_public_key.ssh_servers_key.public_key,
+    azurerm_ssh_public_key.ssh_clients_key.public_key
+  ]
+  vm_count = 1
 }
 
 module "frontend_vms" {

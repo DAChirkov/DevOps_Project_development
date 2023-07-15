@@ -48,7 +48,3 @@ variable "resource_nsg_main" {
   description = "Name of the main NSG"
 }
 
-variable "manage_prefix" {
-  default     = "vm-mng-1"
-  description = "Management server prefix"
-}
