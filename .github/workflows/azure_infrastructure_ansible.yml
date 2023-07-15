@@ -1,4 +1,4 @@
-name: Preparing Ansible for further automation
+name: Preparing Ansible for further automation of services
 on:
   push:
     branches: 
