@@ -5,6 +5,7 @@ on:
      - ansible
      - frontend
      - backend
+  commit_comment:
   workflow_run:
     workflows:
       - "Deploy an infrastructure to Azure via Terraform"
