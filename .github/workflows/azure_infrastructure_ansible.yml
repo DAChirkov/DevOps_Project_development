@@ -1,9 +1,7 @@
 name: Configure VMs via Ansible
-on: |
+on:
   workflow_dispatch:
-  push:
-    branches:
-      - ansible
+  
 env: 
     ARM_SSH_KEY: ${{secrets.AZURE_SSH_KEY}}
 
