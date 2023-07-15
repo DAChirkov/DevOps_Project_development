@@ -13,7 +13,7 @@ on:
 
 jobs:
   ansible:
-    name: Install Ansible
+    name: Install Ansible and configuring VMs
     runs-on: ubuntu-latest
 
     steps:
@@ -46,12 +46,12 @@ jobs:
     
     - name: Start configuring frontend (Nginx) VMs
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-        "ansible-playbook --private-key ~/.ssh/id_rsa -i 
-        /etc/ansible/inventory.ini 
+        "ansible-playbook --private-key ~/.ssh/id_rsa -i
+        /etc/ansible/inventory.ini
         /etc/ansible/playbooks/nginx.yaml"
 
     - name: Start configuring backend (Apache2) VMs
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-        "ansible-playbook --private-key ~/.ssh/id_rsa -i 
-        /etc/ansible/inventory.ini 
+        "ansible-playbook --private-key ~/.ssh/id_rsa -i
+        /etc/ansible/inventory.ini
         /etc/ansible/playbooks/apache2.yaml"
