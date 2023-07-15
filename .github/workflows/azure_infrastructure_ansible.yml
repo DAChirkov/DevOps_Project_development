@@ -1,4 +1,4 @@
-name: Configure VMs via Ansible
+name: Preparing Ansible for further automation
 on:
   push:
     branches: 
