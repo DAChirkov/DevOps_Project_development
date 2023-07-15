@@ -1,5 +1,6 @@
 Status of Last Deployment:<br>
 <img src="https://github.com/DAChirkov/DevOps_Project/actions/workflows/azure_infrastructure_terraform.yml/badge.svg"><br>
+<br><img src="https://github.com/DAChirkov/DevOps_Project/actions/workflows/azure_infrastructure_ansible.yml/badge.svg"><br>
 
 Step1 - Need to create a Service Principal  
 ########################################################################  
