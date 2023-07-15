@@ -63,12 +63,4 @@ resource "azurerm_linux_virtual_machine" "manage_servers" {
     username   = var.os_profile
     public_key = var.public_key
   }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt update",
-      "sudo apt upgrade -y",
-      "sudo apt install -y ansible"
-    ]
-  }
 }
