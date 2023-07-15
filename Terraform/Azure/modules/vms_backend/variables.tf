@@ -41,8 +41,8 @@ variable "os_profile" {
   description = "Name of admin username"
 }
 
-variable "manage_prefix" {
-  default     = "VM-MNG"
-  description = "Manage servers prefix"
+variable "backend_prefix" {
+  default     = "VM-BKN"
+  description = "Backend servers prefix"
 }
 

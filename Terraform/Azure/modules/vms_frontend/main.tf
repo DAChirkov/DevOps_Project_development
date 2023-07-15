@@ -10,7 +10,7 @@ resource "azurerm_public_ip" "frontend_servers" {
   name                    = "${var.frontend_prefix}-${count.index + 1}_PublicIP"
   allocation_method       = "Dynamic"
   sku                     = "Basic"
-  domain_name_label       = "${var.frontend_prefix}-${count.index + 1}"
+  domain_name_label       = lower("${var.frontend_prefix}-${count.index + 1}")
   idle_timeout_in_minutes = 4
 }
 
@@ -61,5 +61,13 @@ resource "azurerm_linux_virtual_machine" "frontend_servers" {
   admin_ssh_key {
     username   = var.os_profile
     public_key = var.public_key
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt update",
+      "sudo apt upgrade -y",
+      "sudo apt install -y nginx"
+    ]
   }
 }

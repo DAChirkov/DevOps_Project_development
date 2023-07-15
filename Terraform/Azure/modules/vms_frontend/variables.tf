@@ -42,7 +42,7 @@ variable "os_profile" {
 }
 
 variable "frontend_prefix" {
-  default     = "vm-frn"
+  default     = "VM-FRN"
   description = "Frontend servers prefix"
 }
 
