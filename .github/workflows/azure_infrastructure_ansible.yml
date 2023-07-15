@@ -1,6 +1,13 @@
 name: Configure VMs via Ansible
 on:
-  workflow_dispatch:
+  push:
+    branches: 
+     - ansible
+  workflow_run:
+    workflows:
+      - "Deploy an infrastructure to Azure via Terraform"
+    types:
+      - completed
 
 jobs:
   ansible:
