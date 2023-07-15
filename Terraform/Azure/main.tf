@@ -84,7 +84,7 @@ resource "azurerm_network_security_rule" "nsg_main_ssh" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "22"
-  source_address_prefix       = "178.134.247.73"
+  source_address_prefix       = "*"
   destination_address_prefix  = "10.1.0.4"
 }
 resource "azurerm_network_security_rule" "nsg_main_http" {
