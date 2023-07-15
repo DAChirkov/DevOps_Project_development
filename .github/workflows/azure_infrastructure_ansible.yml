@@ -22,7 +22,7 @@ jobs:
       run: sudo apt update && sudo apt install -y openssh-client
 
     - name: SSH into VM
-      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com "command-to-execute"
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
 
     - name: Install Packages
       run: |
