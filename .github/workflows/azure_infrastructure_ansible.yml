@@ -1,8 +1,10 @@
-name: Preparing Ansible for further automation of services
+name: Prepare Ansible and run Playbooks for configuration
 on:
   push:
     branches: 
      - ansible
+     - frontend
+     - backend
   workflow_run:
     workflows:
       - "Deploy an infrastructure to Azure via Terraform"
