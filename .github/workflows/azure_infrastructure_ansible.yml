@@ -1,9 +1,6 @@
 name: Configure VMs via Ansible
 on:
   workflow_dispatch:
-  
-env: 
-    ARM_SSH_KEY: ${{secrets.AZURE_SSH_KEY}}
 
 jobs:
   ansible:
@@ -18,7 +15,7 @@ jobs:
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
-        echo "${{ env.ARM_SSH_KEY }}" > ~/.ssh/id_rsa
+        echo "${{secrets.AZURE_SSH_KEY}}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
     
     - name: Install SSH client
