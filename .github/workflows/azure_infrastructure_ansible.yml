@@ -11,6 +11,8 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
+      with:
+        ref: ansible
 
     - name: Set up SSH
       run: |
@@ -22,5 +24,12 @@ jobs:
       run: sudo apt update && sudo apt install -y openssh-client
 
     - name: Install Packages on Remote VM
-      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com "sudo apt update && sudo apt upgrade -y && sudo apt install -y ansible"
-        
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com \
+        "sudo apt update && \
+         sudo apt upgrade -y && \
+         sudo apt install -y ansible git"
+   
+    - name: Copy files to VM
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com \
+        "sudo mkdir -p /etc/ansible && \
+         sudo git clone -b ansible https://github.com/DAChirkov/DevOps_Project.git /etc/ansible"
