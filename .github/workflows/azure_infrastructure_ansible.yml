@@ -21,12 +21,6 @@ jobs:
     - name: Install SSH client
       run: sudo apt update && sudo apt install -y openssh-client
 
-    - name: SSH into VM
-      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-
-    - name: Install Packages
-      run: |
-        sudo apt update
-        sudo apt upgrade -y
-        sudo apt install -y ansible
+    - name: Install Packages on Remote VM
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com "sudo apt update && sudo apt upgrade -y && sudo apt install -y ansible"
         
