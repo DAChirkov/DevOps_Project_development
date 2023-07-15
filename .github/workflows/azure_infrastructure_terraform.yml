@@ -1,8 +1,7 @@
 name: Deploy an infrastructure to Azure via Terraform
 on: 
-  push:
-    branches:
-      - main
+ workflow_dispatch:
+   
 env: 
     ROOT_PATH: '${{github.workspace}}/Terraform/Azure'
     ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
