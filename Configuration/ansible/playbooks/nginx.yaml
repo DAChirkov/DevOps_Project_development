@@ -1,0 +1,54 @@
+- name: Installation and configuration Nginx
+  gather_facts: true
+  become: true
+  serial: 5
+  hosts: frontend
+  remote_user: azroot
+  vars:
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+
+  tasks:
+    - name: Installing the Nginx package
+      apt:
+        name:
+          - nginx
+          - git
+        state: present
+        update_cache: yes
+
+    - name: Cloning frontend repository
+      git:
+        repo: https://github.com/DAChirkov/DevOps_Project.git
+        dest: /home/temp
+        force: true
+        version: frontend
+      notify:
+        - reload nginx
+
+    - name: Copy Nginx configuration (default)
+      copy:
+        remote_src: yes
+        src: /home/temp/nginx_configuration/default
+        dest: /etc/nginx/sites-available/default
+      notify:
+        - reload nginx
+
+    - name: Copy Nginx configuration (upstream)
+      copy:
+        remote_src: yes
+        src: /home/temp/nginx_configuration/upstream
+        dest: /etc/nginx/sites-available/upstream
+      notify:
+        - reload nginx
+
+    - name: Create symbolic link for the upstream
+      file:
+        src: /etc/nginx/sites-available/upstream
+        dest: /etc/nginx/sites-enabled/upstream
+        state: link
+
+  handlers:
+    - name: reload nginx
+      service:
+        name: nginx
+        state: reloaded
