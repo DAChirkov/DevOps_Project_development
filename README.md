@@ -1,7 +1,9 @@
 ##### Status of Last Deployment:<br>
 <img src="https://github.com/DAChirkov/DevOps_Project/actions/workflows/azure_infrastructure_terraform.yml/badge.svg"><br><br>
 <img src="https://github.com/DAChirkov/DevOps_Project/actions/workflows/azure_infrastructure_ansible.yml/badge.svg"><br>
-  
+
+##### Azure infrastructure scheme:
+![](https://github.com/DAChirkov/DevOps_Project/blob/8171ff6085caab7424e5adef67d08ece7806cddc/pre-requisites/other/azure_scheme.jpg)  
   
 ##### Required prerequisites for Azure:
 ```  
