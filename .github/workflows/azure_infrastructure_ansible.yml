@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'configuration/**'
+  workflow_dispatch:      
   workflow_run:
     workflows:
       - "Deploy an infrastructure to Azure via Terraform"
@@ -41,7 +42,7 @@ jobs:
     - name: Copy Ansible files to VM
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
         "[ -d "/etc/temp/repo" ] &&
-         sudo git -C /etc/ansible pull ||
+         sudo git -C /etc/temp/repo pull ||
          sudo git clone https://github.com/DAChirkov/DevOps_Project.git /home/temp/repo"
         
     - name: Copy configuration to the folder
