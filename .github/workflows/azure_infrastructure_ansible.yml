@@ -2,6 +2,7 @@ name: Prepare Ansible and run Playbooks for configuration
 on:
   push:
     branches: 
+     - main
      - ansible
      - frontend
      - backend 
@@ -23,22 +24,26 @@ jobs:
       with:
         ref: ansible
 
+    - name: Install SSH client
+      run: sudo apt update && sudo apt install -y openssh-client
+
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
         echo "${{secrets.AZURE_SSH_KEY}}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
     
-    - name: Install SSH client
-      run: sudo apt update && sudo apt install -y openssh-client
+    - name: Copy SSH privat-key to VM
+      run: sudo scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa
+        ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com:/home/azroot/.ssh/
 
     - name: Install Packages on Remote VM
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
         "sudo apt update &&
          sudo apt upgrade -y &&
          sudo apt install -y ansible git"
-   
-    - name: Copy files to VM
+
+    - name: Copy Ansible files to VM
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
         "[ -d "/etc/ansible" ] &&
         sudo git -C /etc/ansible pull ||
