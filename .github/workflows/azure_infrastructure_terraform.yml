@@ -1,4 +1,4 @@
-name: Deploy an infrastructure to Azure via Terraform
+name: Azure - Deploy an infrastructure via Terraform
 on: 
   workflow_dispatch:
    

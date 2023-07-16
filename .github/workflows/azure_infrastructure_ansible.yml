@@ -1,4 +1,4 @@
-name: Prepare Ansible and run Playbooks for configuration
+name: Azure - Prepare Ansible and configuration
 on:
   push:
     paths:
