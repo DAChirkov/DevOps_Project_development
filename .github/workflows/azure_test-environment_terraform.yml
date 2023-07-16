@@ -1,4 +1,4 @@
-name: Azure - Deploy a test environment via Terraform
+name: Azure - Deploying a test environment via Terraform
 on: 
   workflow_dispatch:
    

@@ -1,4 +1,4 @@
-name: Azure - Prepare Ansible and configuration
+name: Azure - Preparing Ansible and deploying configs 
 on:
   push:
     paths:
