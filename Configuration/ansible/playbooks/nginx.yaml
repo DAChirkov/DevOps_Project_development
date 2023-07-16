@@ -21,14 +21,13 @@
         repo: https://github.com/DAChirkov/DevOps_Project.git
         dest: /home/temp
         force: true
-        version: frontend
       notify:
         - reload nginx
 
     - name: Copy Nginx configuration (default)
       copy:
         remote_src: yes
-        src: /home/temp/nginx_configuration/default
+        src: /home/temp/configuration/nginx/default
         dest: /etc/nginx/sites-available/default
       notify:
         - reload nginx
@@ -36,7 +35,7 @@
     - name: Copy Nginx configuration (upstream)
       copy:
         remote_src: yes
-        src: /home/temp/nginx_configuration/upstream
+        src: /home/temp/configuration/nginx/upstream
         dest: /etc/nginx/sites-available/upstream
       notify:
         - reload nginx

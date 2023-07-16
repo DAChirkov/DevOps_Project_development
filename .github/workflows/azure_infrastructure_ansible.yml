@@ -2,7 +2,7 @@ name: Prepare Ansible and run Playbooks for configuration
 on:
   push:
     paths:
-      - 'Configuration/**'
+      - 'configuration/**'
   workflow_run:
     workflows:
       - "Deploy an infrastructure to Azure via Terraform"
