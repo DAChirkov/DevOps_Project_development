@@ -41,8 +41,8 @@ jobs:
 
     - name: Copy Ansible files to VM
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-        "[ -d "/etc/temp/repo" ] &&
-         sudo git -C /etc/temp/repo pull ||
+        "[ -d "/home/temp/repo" ] &&
+         sudo git -C /home/temp/repo pull ||
          sudo git clone https://github.com/DAChirkov/DevOps_Project.git /home/temp/repo"
         
     - name: Copy configuration to the folder
