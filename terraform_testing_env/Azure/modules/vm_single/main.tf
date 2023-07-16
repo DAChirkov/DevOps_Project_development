@@ -3,14 +3,14 @@
 #################################################################
 
 # Create public IP
-resource "azurerm_public_ip" "frontend_servers" {
+resource "azurerm_public_ip" "test_server" {
   count                   = var.vm_count
   resource_group_name     = var.resource_group_name
   location                = var.resource_group_location
-  name                    = "${var.frontend_prefix}-${count.index + 1}_PublicIP"
+  name                    = "${var.test_prefix}-${count.index + 1}_PublicIP"
   allocation_method       = "Dynamic"
   sku                     = "Basic"
-  domain_name_label       = lower("${var.frontend_prefix}-${count.index + 1}")
+  domain_name_label       = lower("${var.test_prefix}-${count.index + 1}")
   idle_timeout_in_minutes = 4
 }
 
