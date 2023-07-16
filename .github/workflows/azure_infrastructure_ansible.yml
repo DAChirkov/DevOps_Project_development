@@ -45,7 +45,9 @@ jobs:
         sudo git clone https://github.com/DAChirkov/DevOps_Project.git /home/temp/repo"
         
     - name: Copy configuration to the folder
-      run: sudo cp -r /home/temp/configuration/ansible /etc
+      run: |
+        sudo mkdir -p /etc/ansible
+        sudo cp -r /home/temp/repo/configuration/ansible /etc/ansible
     
     - name: Start configuring frontend (Nginx) VMs
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
