@@ -29,35 +29,35 @@ jobs:
         echo "${{secrets.AZURE_SSH_KEY}}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
     
-    # - name: Copy SSH privat-key to VM
-    #   run: sudo scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa
-    #     ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com:/home/azroot/.ssh/
+    - name: Copy SSH privat-key to VM
+      run: sudo scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa
+        ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com:/home/azroot/.ssh/
 
-    # - name: Install Packages on Remote VM
-    #   run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-    #     "sudo apt update &&
-    #      sudo apt upgrade -y &&
-    #      sudo apt install -y ansible git"
+    - name: Install Packages on Remote VM
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
+        "sudo apt update &&
+         sudo apt upgrade -y &&
+         sudo apt install -y ansible git"
 
-    # - name: Copy Ansible files to VM
-    #   run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-    #     "[ -d "/home/temp/repo" ] &&
-    #      sudo git -C /home/temp/repo pull ||
-    #      sudo git clone https://github.com/DAChirkov/DevOps_Project.git /home/temp/repo"
+    - name: Copy Ansible files to VM
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
+        "[ -d "/home/temp/repo" ] &&
+         sudo git -C /home/temp/repo pull ||
+         sudo git clone https://github.com/DAChirkov/DevOps_Project.git /home/temp/repo"
         
-    # - name: Copy configuration to the folder
-    #   run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-    #     "sudo mkdir -p /etc/ansible &&
-    #      sudo cp -r /home/temp/repo/configuration/ansible /etc"
+    - name: Copy configuration to the folder
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
+        "sudo mkdir -p /etc/ansible &&
+         sudo cp -r /home/temp/repo/configuration/ansible /etc"
    
-    # - name: Start configuring frontend (Nginx) VMs
-    #   run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-    #     "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
-    #      /etc/ansible/inventory.ini
-    #      /etc/ansible/playbooks/nginx.yaml"
+    - name: Start configuring frontend (Nginx) VMs
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
+        "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
+         /etc/ansible/inventory.ini
+         /etc/ansible/playbooks/nginx.yaml"
 
-    # - name: Start configuring backend (Apache2) VMs
-    #   run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-    #     "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
-    #      /etc/ansible/inventory.ini
-    #      /etc/ansible/playbooks/apache2.yaml"
+    - name: Start configuring backend (Apache2) VMs
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
+        "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
+         /etc/ansible/inventory.ini
+         /etc/ansible/playbooks/apache2.yaml"
