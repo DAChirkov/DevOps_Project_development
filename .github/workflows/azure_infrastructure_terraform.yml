@@ -1,6 +1,8 @@
 name: Deploy an infrastructure to Azure via Terraform
 on: 
   push:
+    paths:
+      - 'terraform/**'
   workflow_dispatch:
    
 env: 
