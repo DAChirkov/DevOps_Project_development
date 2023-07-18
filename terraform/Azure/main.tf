@@ -87,20 +87,6 @@ resource "azurerm_network_security_rule" "nsg_main_ssh" {
   source_address_prefix       = "*"
   destination_address_prefix  = "10.1.0.4"
 }
-resource "azurerm_network_security_rule" "nsg_main_http" {
-  depends_on                  = [azurerm_network_security_group.nsg_main]
-  name                        = "SiteAllow_HTTP"
-  resource_group_name         = var.resource_group_name
-  network_security_group_name = var.resource_nsg_main
-  priority                    = 999
-  direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
-  source_port_range           = "*"
-  destination_port_range      = "80"
-  source_address_prefix       = "*"
-  destination_address_prefix  = "10.1.1.0/24"
-}
 
 #####################################################
 
@@ -124,7 +110,7 @@ module "frontend_vms" {
   subnet_id                 = azurerm_subnet.snet2.id
   network_security_group_id = azurerm_network_security_group.nsg_main.id
   public_key                = azurerm_ssh_public_key.ssh_clients_key.public_key
-  vm_count                  = 0
+  vm_count                  = 1
 }
 
 module "backend_vms" {

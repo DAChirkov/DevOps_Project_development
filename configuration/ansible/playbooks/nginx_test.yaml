@@ -1,0 +1,52 @@
+- name: Installation and configuration Nginx
+  gather_facts: true
+  become: true
+  serial: 5
+  hosts: frontend
+  remote_user: azroot
+  vars:
+    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+
+  tasks:
+    - name: Installing the Git package
+      apt:
+        name:
+          - git
+        state: present
+        update_cache: yes
+
+    - name: Cloning frontend repository
+      git:
+        repo: https://github.com/DAChirkov/DevOps_Project.git
+        dest: /home/temp
+        force: true
+
+    - name: Installing required system packages
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+        state: present
+        update_cache: yes
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/debian focal stable
+        state: present
+
+    - name: Installing Docker's packages
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: latest
+        update_cache: true
