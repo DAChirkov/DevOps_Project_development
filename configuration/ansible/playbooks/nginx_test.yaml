@@ -15,7 +15,7 @@
         state: present
         update_cache: yes
 
-    - name: Cloning frontend repository
+    - name: Cloning repository
       git:
         repo: https://github.com/DAChirkov/DevOps_Project.git
         dest: /home/temp

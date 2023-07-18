@@ -1,0 +1,65 @@
+- name: Installation and configuration Apache2
+  gather_facts: true
+  become: true
+  serial: 5
+  hosts: backend
+  remote_user: azroot
+
+  tasks:
+    - name: Installing the Apache2 package
+      apt:
+        name:
+          - apache2
+          - git
+        state: present
+        update_cache: yes
+
+    - name: Cloning frontend repository
+      git:
+        repo: https://github.com/DAChirkov/DevOps_Project.git
+        dest: /home/temp
+        force: true
+      notify:
+        - reload apache2
+
+    - name: Copy Apache2 configuration (ports.conf)
+      copy:
+        remote_src: yes
+        src: /home/temp/configuration/apache2/ports.conf
+        dest: /etc/apache2/ports.conf
+      notify:
+        - reload apache2
+
+    - name: Copy Nginx configuration (8080.conf)
+      copy:
+        remote_src: yes
+        src: /home/temp/configuration/apache2/8080.conf
+        dest: /etc/apache2/sites-available/8080.conf
+      notify:
+        - reload apache2
+
+    - name: Create a new directory
+      file:
+        path: /var/www/8080
+        state: directory
+        mode: "0755"
+
+    - name: Copy Apache2 configuration (index.html)
+      copy:
+        remote_src: yes
+        src: /home/temp/configuration/apache2/index.html
+        dest: /var/www/8080/index.html
+      notify:
+        - reload apache2
+
+    - name: Create symbolic link for the 8080.conf
+      file:
+        src: /etc/apache2/sites-available/8080.conf
+        dest: /etc/apache2/sites-enabled/8080.conf
+        state: link
+
+  handlers:
+    - name: reload apache2
+      service:
+        name: apache2
+        state: reloaded

@@ -1,0 +1,23 @@
+version: "3.5"
+services:
+  backend_1:
+    image: httpd:latest
+    container_name: apache2_server1
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - vnet1
+
+  backend_2:
+    image: httpd:latest
+    container_name: apache2_server2
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+    networks:
+      - vnet1
+
+networks:
+  vnet1:
+    driver: bridge
