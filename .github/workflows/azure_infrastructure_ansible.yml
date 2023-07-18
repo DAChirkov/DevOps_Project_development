@@ -29,8 +29,8 @@ jobs:
         echo "${{secrets.AZURE_SSH_KEY}}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
 
-    - name: Wait for 30 seconds
-      run: sleep 30
+    - name: Wait for 10 seconds
+      run: sleep 10
         
     - name: Copy SSH privat-key to VM
       run: sudo scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa
