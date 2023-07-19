@@ -1,4 +1,4 @@
-- name: Installation and configuration Apache2
+- name: Configuration Apache2
   gather_facts: true
   become: true
   serial: 5
