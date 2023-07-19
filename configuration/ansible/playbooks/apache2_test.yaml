@@ -6,9 +6,6 @@
   remote_user: azroot
 
   tasks:
-    - name: Ping
-      ping: 10.1.2.4
-
     - name: Installing the Git package
       apt:
         name:
