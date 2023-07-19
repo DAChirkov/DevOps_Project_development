@@ -1,8 +1,5 @@
 name: Azure - Preparing Ansible and deploying configs 
 on:
-  push:
-    paths:
-      - 'configuration/**'
   workflow_dispatch:      
   workflow_run:
     workflows:
