@@ -53,6 +53,5 @@
     - name: Install Docker's Package for Ansible-Galaxy
       pip:
         name:
-          - docker
           - docker_compose
         state: present
