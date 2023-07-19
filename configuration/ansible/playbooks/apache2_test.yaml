@@ -71,5 +71,6 @@
 
     - name: Start Docker's Containers
       community.docker.docker_compose:
-        project_src: /home/temp/repo/configuration/docker/apache2/docker-compose.yml
+        project_src: /home/temp/repo/configuration/docker/apache2
+        files: docker-compose.yml
         state: present
