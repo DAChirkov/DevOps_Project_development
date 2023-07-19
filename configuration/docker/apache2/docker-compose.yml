@@ -6,7 +6,6 @@ services:
     volumes:
       - "/mnt/apache2/extra:/usr/local/apache2/conf/extra:ro"
       - "/mnt/apache2/htdocs:/usr/local/apache2/htdocs:ro"
-    detach: true
     ports:
       - "8080:80"
     restart: unless-stopped
@@ -19,7 +18,6 @@ services:
     volumes:
       - "/mnt/apache2/extra:/usr/local/apache2/conf/extra:ro"
       - "/mnt/apache2/htdocs:/usr/local/apache2/htdocs:ro"
-    detach: true
     ports:
       - "8081:80"
     restart: unless-stopped
