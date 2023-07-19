@@ -66,6 +66,7 @@
 
     - name: Copy Configuration to the Folder
       copy:
+        remote_src: yes
         src: /home/temp/repo/configuration/ansible
         dest: /etc
 
