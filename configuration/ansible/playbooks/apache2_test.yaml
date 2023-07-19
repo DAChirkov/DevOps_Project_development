@@ -6,11 +6,10 @@
   remote_user: azroot
 
   tasks:
-    - name: Installing Packages
+    - name: Installing Git Package
       apt:
         name:
           - git
-          - python3-pip
         state: present
         update_cache: yes
 
@@ -26,6 +25,7 @@
           - ca-certificates
           - curl
           - gnupg
+          - python3-pip
         state: present
         update_cache: yes
 
