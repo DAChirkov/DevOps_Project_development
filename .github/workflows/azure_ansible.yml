@@ -20,9 +20,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Install SSH client
-      run: sudo apt update && sudo apt install -y openssh-client
-
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
@@ -52,9 +49,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Install SSH client
-      run: sudo apt update && sudo apt install -y openssh-client
-
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
@@ -77,9 +71,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Install SSH client
-      run: sudo apt update && sudo apt install -y openssh-client
-
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh
@@ -101,9 +92,6 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v3
-
-    - name: Install SSH client
-      run: sudo apt update && sudo apt install -y openssh-client
 
     - name: Set up SSH
       run: |

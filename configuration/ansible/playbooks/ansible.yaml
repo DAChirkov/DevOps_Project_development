@@ -1,11 +1,11 @@
-- name: Install and Сonfiguration Ansible
+- name: Install and Configuration Ansible
   become: true
   serial: 5
   hosts: ansible
   remote_user: azroot
 
   tasks:
-    - name: Install Base Packages
+    - name: Install Required Packages
       apt:
         name:
           - git
@@ -15,27 +15,6 @@
           - python3-pip
         state: present
         update_cache: yes
-
-    - name: Add Docker GPG apt Key
-      apt_key:
-        url: https://download.docker.com/linux/debian/gpg
-        state: present
-
-    - name: Add Docker Repository
-      apt_repository:
-        repo: deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
-        state: present
-
-    - name: Install Docker's Packages
-      apt:
-        name:
-          - docker-ce
-          - docker-ce-cli
-          - containerd.io
-          - docker-buildx-plugin
-          - docker-compose-plugin
-        state: latest
-        update_cache: true
 
     - name: Install Ansible & Docker's Package for Ansible-Galaxy
       pip:

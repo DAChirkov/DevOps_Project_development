@@ -19,7 +19,7 @@
         dest: /home/temp/repo
         force: true
 
-    - name: Install Required System Packages
+    - name: Install Required Packages
       apt:
         name:
           - ca-certificates
@@ -29,27 +29,9 @@
         state: present
         update_cache: yes
 
-    - name: Add Docker GPG apt Key
-      apt_key:
-        url: https://download.docker.com/linux/debian/gpg
-        state: present
-
-    - name: Add Docker Repository
-      apt_repository:
-        repo: deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
-        state: present
-
     - name: Install Docker's Packages
-      apt:
-        name:
-          - docker-ce
-          - docker-ce-cli
-          - docker-buildx-plugin
-        state: latest
-        update_cache: true
-
-    - name: Install Docker's Package for Ansible-Galaxy
       pip:
         name:
+          - docker
           - docker_compose
         state: present
