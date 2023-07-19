@@ -2,7 +2,7 @@
   gather_facts: true
   become: true
   serial: 5
-  hosts: backend
+  hosts: ansible
   remote_user: azroot
   vars:
     ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
@@ -11,22 +11,12 @@
     - name: Installing the Git package
       apt:
         name:
+          - ansible
           - git
-        state: present
-        update_cache: yes
-
-    - name: Cloning repository
-      git:
-        repo: https://github.com/DAChirkov/DevOps_Project_development.git
-        dest: /home/temp/repo
-        force: true
-
-    - name: Installing required system packages
-      apt:
-        name:
           - ca-certificates
           - curl
           - gnupg
+          - python3-pip
         state: present
         update_cache: yes
 
@@ -51,19 +41,38 @@
         state: latest
         update_cache: true
 
+    - name: Installing package for "community.docker.docker_compose"
+      pip:
+        name:
+          - docker
+          - ansible-galaxy-collection
+        state: present
+
+    - name: Installing package "community.docker.docker_compose"
+      community.general.galaxy_collection:
+        name: community.docker
+        state: present
+
+    - name: Cloning repository
+      git:
+        repo: https://github.com/DAChirkov/DevOps_Project_development.git
+        dest: /home/temp/repo
+        force: true
+
     - name: Create a new directory
       file:
         path: /mnt/apache2
         state: directory
         mode: "0755"
 
-    - name: Copy configuration
+    - name: Copy configuration to the folder
       copy:
-        remote_src: yes
-        src: /home/temp/repo/configuration/apache2/
-        dest: /mnt
+        src: /home/temp/repo/configuration/ansible
+        dest: /etc
 
-    - name: Start Docker's containers
-      community.docker.docker_compose:
-        project_src: /home/temp/configuration/docker/install_apache2.yml
-        state: present
+    - name: Start configuring backend (Apache2) VMs
+      command:
+        sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
+        "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
+        /etc/ansible/inventory.ini
+        /etc/ansible/playbooks/apache2_test.yaml"
