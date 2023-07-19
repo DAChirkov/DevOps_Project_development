@@ -60,7 +60,7 @@
       copy:
         remote_src: yes
         src: /home/temp/repo/configuration/apache2/
-        dest: /mnt
+        dest: /mnt/apache2
 
     - name: Install Docker's Package for Ansible-Galaxy
       pip:
