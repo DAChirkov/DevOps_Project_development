@@ -12,7 +12,7 @@ env:
 
 jobs:
   ansible:
-    name: Install Ansible and configuring VMs
+    name: Install Ansible and Configuring Servers
     runs-on: ubuntu-latest
 
     steps:
@@ -41,13 +41,13 @@ jobs:
         ${{env.ROOT_PATH}}/inventory.ini
         ${{env.ROOT_PATH}}/playbooks/ansible.yaml
 
-    - name: Starting to Configure Servers
+    - name: Configuring Servers
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
         "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
          /etc/ansible/inventory.ini
          /etc/ansible/playbooks/basic_conf.yaml" 
          
-    - name: Start Preparing Servers (Apache2)
+    - name: Preparing Apache2 Servers
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
         "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
         /etc/ansible/inventory.ini

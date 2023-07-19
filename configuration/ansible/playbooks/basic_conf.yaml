@@ -1,4 +1,4 @@
-- name: Installation and Configuration Servers
+- name: Install and Configuration Servers
   gather_facts: true
   become: true
   serial: 5
@@ -6,20 +6,20 @@
   remote_user: azroot
 
   tasks:
-    - name: Installing Git Package
+    - name: Install Git Package
       apt:
         name:
           - git
         state: present
         update_cache: yes
 
-    - name: Cloning Repository
+    - name: Clone Repository
       git:
         repo: https://github.com/DAChirkov/DevOps_Project_development.git
         dest: /home/temp/repo
         force: true
 
-    - name: Installing Required System Packages
+    - name: Install Required System Packages
       apt:
         name:
           - ca-certificates
@@ -39,7 +39,7 @@
         repo: deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
         state: present
 
-    - name: Installing Docker's packages
+    - name: Install Docker's Packages
       apt:
         name:
           - docker-ce

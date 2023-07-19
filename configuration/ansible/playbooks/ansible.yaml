@@ -1,4 +1,4 @@
-- name: Installation and configuration Ansible
+- name: Install and Сonfiguration Ansible
   become: true
   serial: 5
   hosts: ansible
@@ -26,7 +26,7 @@
         repo: deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
         state: present
 
-    - name: Installing Docker's Packages
+    - name: Install Docker's Packages
       apt:
         name:
           - docker-ce
