@@ -45,11 +45,11 @@
       pip:
         name:
           - docker
-          - ansible-galaxy-collection
+          - community.general
         state: present
 
     - name: Installing package "community.docker.docker_compose"
-      community.general.galaxy_collection:
+      community.general.ansible_galaxy_install:
         name: community.docker
         state: present
 
