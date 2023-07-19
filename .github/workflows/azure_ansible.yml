@@ -83,24 +83,24 @@ jobs:
          /etc/ansible/inventory.ini
          /etc/ansible/playbooks/srv_nginx.yaml"   
 
-  conf_apache2:
-    name: Preparing Apache2 
-    runs-on: ubuntu-latest
-    needs: [install_packages]
+  # conf_apache2:
+  #   name: Preparing Apache2 
+  #   runs-on: ubuntu-latest
+  #   needs: [install_packages]
 
-    steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v3
+  #   steps:
+  #   # Checkout the repository to the GitHub Actions runner
+  #   - name: Checkout
+  #     uses: actions/checkout@v3
 
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{secrets.AZURE_SSH_KEY}}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
+  #   - name: Set up SSH
+  #     run: |
+  #       mkdir -p ~/.ssh
+  #       echo "${{secrets.AZURE_SSH_KEY}}" > ~/.ssh/id_rsa
+  #       chmod 600 ~/.ssh/id_rsa
 
-    - name: Preparing Apache2 Servers
-      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-         "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
-         /etc/ansible/inventory.ini
-         /etc/ansible/playbooks/srv_apache2.yaml"          
+  #   - name: Preparing Apache2 Servers
+  #     run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
+  #        "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
+  #        /etc/ansible/inventory.ini
+  #        /etc/ansible/playbooks/srv_apache2.yaml"          
