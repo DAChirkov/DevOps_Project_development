@@ -61,6 +61,12 @@
         src: /home/temp/repo/configuration/apache2/
         dest: /mnt
 
+    - name: Install Docker's Package for Ansible-Galaxy
+      pip:
+        name:
+          - docker
+        state: present
+
     - name: Start Docker's containers
       community.docker.docker_compose:
         project_src: /home/temp/configuration/docker/install_apache2.yml
