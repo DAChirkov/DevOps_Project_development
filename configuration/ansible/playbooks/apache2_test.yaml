@@ -4,8 +4,6 @@
   serial: 5
   hosts: backend
   remote_user: azroot
-  vars:
-    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
 
   tasks:
     - name: Installing the Git package

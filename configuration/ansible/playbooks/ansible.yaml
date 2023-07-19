@@ -71,6 +71,7 @@
         dest: /etc
 
     - name: Start Configuring <backend (Apache2)> VMs
-      shell: sudo ansible-playbook -i ~/.ssh/id_rsa' -i
+      shell:
+        sudo ansible-playbook -i ~/.ssh/id_rsa {{ ansible_ssh_common_args }} -i
         /etc/ansible/inventory.ini
         /etc/ansible/playbooks/apache2_test.yaml
