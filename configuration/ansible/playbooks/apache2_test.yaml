@@ -65,8 +65,8 @@
         dest: /mnt
 
     - name: Installing package for "community.docker.docker_compose"
-      apt:
-        pip:
+      pip:
+        name:
           - docker
         state: present
 
