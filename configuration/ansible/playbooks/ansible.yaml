@@ -8,7 +8,7 @@
     ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
 
   tasks:
-    - name: Installing the Git package
+    - name: Install Base Packages
       apt:
         name:
           - ansible
@@ -30,7 +30,7 @@
         repo: deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
         state: present
 
-    - name: Installing Docker's packages
+    - name: Installing Docker's Packages
       apt:
         name:
           - docker-ce
@@ -41,36 +41,35 @@
         state: latest
         update_cache: true
 
-    - name: Installing package for "community.docker.docker_compose"
+    - name: Install Docker's Package for Ansible-Galaxy
       pip:
         name:
           - docker
-          - community.general
         state: present
 
-    - name: Installing package "community.docker.docker_compose"
+    - name: Install Packages via Ansible-Galaxy
       community.general.ansible_galaxy_install:
         name: community.docker
         state: present
 
-    - name: Cloning repository
+    - name: Clone Working Repository
       git:
         repo: https://github.com/DAChirkov/DevOps_Project_development.git
         dest: /home/temp/repo
         force: true
 
-    - name: Create a new directory
+    - name: Create a New Directory
       file:
         path: /mnt/apache2
         state: directory
         mode: "0755"
 
-    - name: Copy configuration to the folder
+    - name: Copy Configuration to the Folder
       copy:
         src: /home/temp/repo/configuration/ansible
         dest: /etc
 
-    - name: Start configuring backend (Apache2) VMs
+    - name: Start Configuring <backend (Apache2)> VMs
       command:
         sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
         "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
