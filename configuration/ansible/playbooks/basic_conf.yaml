@@ -25,13 +25,26 @@
           - ca-certificates
           - curl
           - gnupg
-          - python3-pip
         state: present
         update_cache: yes
 
-    - name: Install Docker's Packages
-      pip:
-        name:
-          - docker
-          - docker_compose
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
         state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: latest
+        update_cache: true

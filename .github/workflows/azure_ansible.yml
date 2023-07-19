@@ -81,7 +81,13 @@ jobs:
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
          "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
          /etc/ansible/inventory.ini
-         /etc/ansible/playbooks/srv_nginx.yaml"   
+         /etc/ansible/playbooks/srv_nginx.yaml"
+ 
+    - name: Start Docker Containers
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
+        "docker-compose -f /home/temp/repo/configuration/docker/nginx/docker-compose.yml up -d"   
+         
+
 
   # conf_apache2:
   #   name: Preparing Apache2 
@@ -103,4 +109,7 @@ jobs:
   #     run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
   #        "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
   #        /etc/ansible/inventory.ini
-  #        /etc/ansible/playbooks/srv_apache2.yaml"          
+  #        /etc/ansible/playbooks/srv_apache2.yaml"
+  #   - name: Start Docker Containers
+  #     run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
+  #    "docker-compose -f /home/temp/repo/configuration/docker/apache2/docker-compose.yml up -d"     

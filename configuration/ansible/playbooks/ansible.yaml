@@ -9,24 +9,15 @@
       apt:
         name:
           - git
-          - ca-certificates
-          - curl
-          - gnupg
           - python3-pip
         state: present
         update_cache: yes
 
-    - name: Install Ansible & Docker's Package for Ansible-Galaxy
+    - name: Install Ansible
       pip:
         name:
-          - docker
           - ansible
         state: present
-
-    - name: Install Package via Ansible-Galaxy
-      community.general.ansible_galaxy_install:
-        type: collection
-        name: community.docker
 
     - name: Clone Working Repository
       git:
@@ -36,7 +27,7 @@
 
     - name: Create a New Directory
       file:
-        path: /mnt/apache2
+        path: /mnt/ansible
         state: directory
         mode: "0755"
 
