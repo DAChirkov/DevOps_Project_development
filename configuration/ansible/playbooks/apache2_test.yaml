@@ -66,6 +66,7 @@
       pip:
         name:
           - docker
+          - docker_compose
         state: present
 
     - name: Start Docker's Containers
