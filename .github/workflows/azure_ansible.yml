@@ -37,8 +37,9 @@ jobs:
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
         "sudo apt update &&
          sudo apt upgrade -y &&
-         sudo apt install -y ansible git &&
-         sudo ansible-galaxy collection install community.docker"
+         sudo apt install -y ansible git python3-pip &&
+         sudo ansible-galaxy collection install community.docker
+         pip install docker"
 
     - name: Copy Ansible files to VM
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
