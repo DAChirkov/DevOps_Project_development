@@ -3,7 +3,7 @@ on:
   workflow_dispatch:      
   workflow_run:
     workflows:
-      - "Azure - Deploying infrastructure via Terraform"
+      - "Azure - Deploying infrastructure via Terraform111"
     types:
       - completed
 
