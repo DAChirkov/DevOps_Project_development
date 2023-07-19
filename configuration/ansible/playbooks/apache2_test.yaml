@@ -50,3 +50,19 @@
           - docker-compose-plugin
         state: latest
         update_cache: true
+
+    - name: Create a new directory
+      file:
+        path: /mnt/apache2
+        state: directory
+        mode: "0755"
+
+    - name: Copy configuration
+      copy:
+        remote_src: yes
+        src: /home/temp/configuration/apache2/
+        dest: /mnt
+
+
+ ansible-galaxy collection install community.docker
+    - ### Запустить контейнер
