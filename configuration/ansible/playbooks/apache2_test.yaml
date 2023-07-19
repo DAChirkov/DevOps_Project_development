@@ -27,6 +27,7 @@
           - ca-certificates
           - curl
           - gnupg
+          - python3-pip
         state: present
         update_cache: yes
 
@@ -62,6 +63,13 @@
         remote_src: yes
         src: /home/temp/configuration/apache2/
         dest: /mnt
+
+    - name: Installing package for "community.docker.docker_compose"
+      apt:
+        name:
+          - pip install docker
+        state: latest
+        update_cache: true
 
     - name: Start Docker's containers
       community.docker.docker_compose:
