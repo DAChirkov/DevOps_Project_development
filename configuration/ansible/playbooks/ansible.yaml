@@ -51,7 +51,6 @@
       community.general.ansible_galaxy_install:
         type: collection
         name: community.docker
-        state: present
 
     - name: Clone Working Repository
       git:
