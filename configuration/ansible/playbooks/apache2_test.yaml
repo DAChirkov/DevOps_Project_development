@@ -6,20 +6,21 @@
   remote_user: azroot
 
   tasks:
-    - name: Installing the Git package
+    - name: Installing Packages
       apt:
         name:
           - git
+          - python3-pip
         state: present
         update_cache: yes
 
-    - name: Cloning repository
+    - name: Cloning Repository
       git:
         repo: https://github.com/DAChirkov/DevOps_Project_development.git
         dest: /home/temp/repo
         force: true
 
-    - name: Installing required system packages
+    - name: Installing Required System Packages
       apt:
         name:
           - ca-certificates
@@ -49,13 +50,13 @@
         state: latest
         update_cache: true
 
-    - name: Create a new directory
+    - name: Create a New Directory
       file:
         path: /mnt/apache2
         state: directory
         mode: "0755"
 
-    - name: Copy configuration
+    - name: Copy Configuration
       copy:
         remote_src: yes
         src: /home/temp/repo/configuration/apache2/
@@ -67,7 +68,7 @@
           - docker
         state: present
 
-    - name: Start Docker's containers
+    - name: Start Docker's Containers
       community.docker.docker_compose:
         project_src: /home/temp/configuration/docker/install_apache2.yml
         state: present
