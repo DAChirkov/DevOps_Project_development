@@ -18,7 +18,7 @@
 
     - name: Cloning frontend repository
       git:
-        repo: https://github.com/DAChirkov/DevOps_Project.git
+        repo: https://github.com/DAChirkov/DevOps_Project_development.git
         dest: /home/temp
         force: true
       notify:

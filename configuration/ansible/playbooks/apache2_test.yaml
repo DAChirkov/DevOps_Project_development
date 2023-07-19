@@ -17,7 +17,7 @@
 
     - name: Cloning repository
       git:
-        repo: https://github.com/DAChirkov/DevOps_Project.git
+        repo: https://github.com/DAChirkov/DevOps_Project_development.git
         dest: /home/temp
         force: true
 
@@ -63,6 +63,7 @@
         src: /home/temp/configuration/apache2/
         dest: /mnt
 
-
- ansible-galaxy collection install community.docker
-    - ### Запустить контейнер
+    - name: Start Docker's containers
+      community.docker.docker_compose:
+        project_src: /home/temp/configuration/docker/install_apache2.yml
+        state: present

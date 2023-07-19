@@ -6,7 +6,7 @@ on:
   workflow_dispatch:      
   workflow_run:
     workflows:
-      - "Azure - Deploying test environment via Terraform"
+      - "Azure - Deploying infrastructure via Terraform"
     types:
       - completed
 
@@ -40,13 +40,14 @@ jobs:
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
         "sudo apt update &&
          sudo apt upgrade -y &&
-         sudo apt install -y ansible git"
+         sudo apt install -y ansible git &&
+         sudo ansible-galaxy collection install community.docker"
 
     - name: Copy Ansible files to VM
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
         "[ -d "/home/temp/repo" ] &&
          sudo git -C /home/temp/repo pull ||
-         sudo git clone https://github.com/DAChirkov/DevOps_Project.git /home/temp/repo"
+         sudo git clone https://github.com/DAChirkov/DevOps_Project_development.git /home/temp/repo"
         
     - name: Copy configuration to the folder
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
