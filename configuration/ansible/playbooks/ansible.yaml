@@ -1,5 +1,4 @@
-- name: Installation and configuration Apache2
-  gather_facts: true
+- name: Installation and configuration Ansible
   become: true
   serial: 5
   hosts: ansible
