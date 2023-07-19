@@ -39,7 +39,7 @@ jobs:
     - name: Install Ansible Packages on Remote VM
       run: ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
         ${{env.ROOT_PATH}}/inventory.ini
-        ${{env.ROOT_PATH}}/playbooks/ansible.yaml -vvv
+        ${{env.ROOT_PATH}}/playbooks/ansible.yaml
         
 
     # - name: Start configuring frontend (Nginx) VMs

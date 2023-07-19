@@ -47,7 +47,7 @@
           - docker
         state: present
 
-    - name: Install Packages via Ansible-Galaxy
+    - name: Install Package via Ansible-Galaxy
       community.general.ansible_galaxy_install:
         type: collection
         name: community.docker
@@ -67,5 +67,12 @@
     - name: Copy Configuration to the Folder
       copy:
         remote_src: yes
+        directory_mode: yes
         src: /home/temp/repo/configuration/ansible
         dest: /etc
+
+    - name: Start Configuring <backend (Apache2)> VMs
+      shell:
+        sudo ansible-playbook -i ~/.ssh/id_rsa {{ ansible_ssh_common_args }} -i
+        /etc/ansible/inventory.ini
+        /etc/ansible/playbooks/apache2_test.yaml
