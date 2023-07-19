@@ -4,8 +4,6 @@
   serial: 5
   hosts: ansible
   remote_user: azroot
-  vars:
-    ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
 
   tasks:
     - name: Install Base Packages
@@ -73,6 +71,6 @@
 
     - name: Start Configuring <backend (Apache2)> VMs
       shell:
-        sudo ansible-playbook -i ~/.ssh/id_rsa {{ ansible_ssh_common_args }} -i
+        sudo ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
         /etc/ansible/inventory.ini
         /etc/ansible/playbooks/apache2_test.yaml
