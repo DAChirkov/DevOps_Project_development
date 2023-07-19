@@ -66,10 +66,9 @@
 
     - name: Installing package for "community.docker.docker_compose"
       apt:
-        name:
-          - pip install docker
-        state: latest
-        update_cache: true
+        pip:
+          - docker
+        state: present
 
     - name: Start Docker's containers
       community.docker.docker_compose:
