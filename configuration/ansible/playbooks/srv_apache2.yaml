@@ -1,0 +1,25 @@
+- name: Installation and configuration Apache2
+  gather_facts: true
+  become: true
+  serial: 5
+  hosts: backend
+  remote_user: azroot
+
+  tasks:
+    - name: Create a New Directory
+      file:
+        path: /mnt/apache2
+        state: directory
+        mode: "0755"
+
+    - name: Copy Configuration
+      copy:
+        remote_src: yes
+        src: /home/temp/repo/configuration/apache2/
+        dest: /mnt/apache2
+
+    - name: Start Docker's Containers
+      community.docker.docker_compose:
+        project_src: /home/temp/repo/configuration/docker/apache2
+        files: docker-compose.yml
+        state: present
