@@ -15,6 +15,7 @@
     - name: Copy Configuration
       copy:
         remote_src: yes
+        directory_mode: yes
         src: /home/temp/repo/configuration/apache2/
         dest: /mnt/apache2
 

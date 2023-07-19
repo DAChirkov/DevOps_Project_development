@@ -1,9 +1,9 @@
-name: Azure - Preparing Ansible and deploying configs 
+name: Azure_Configuring Services
 on:
   workflow_dispatch:      
   workflow_run:
     workflows:
-      - "Azure - Deploying infrastructure via Terraform"
+      - "Azure_Deploy Infrastructure"
     types:
       - completed
 
@@ -47,27 +47,14 @@ jobs:
          /etc/ansible/inventory.ini
          /etc/ansible/playbooks/basic_conf.yaml" 
          
+    - name: Preparing Nginx Servers
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
+         "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
+         /etc/ansible/inventory.ini
+         /etc/ansible/playbooks/srv_nginx.yaml"   
+
     - name: Preparing Apache2 Servers
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-        "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
-        /etc/ansible/inventory.ini
-        /etc/ansible/playbooks/srv_apache2.yaml"          
-        
-    # - name: Start configuring frontend (Nginx) VMs
-    #   run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-    #     "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
-    #      /etc/ansible/inventory.ini
-    #      /etc/ansible/playbooks/nginx_test.yaml"
-
-     
-    # - name: Start configuring frontend (Nginx) VMs
-    #   run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-    #     "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
-    #      /etc/ansible/inventory.ini
-    #      /etc/ansible/playbooks/nginx.yaml"
-
-    # - name: Start configuring backend (Apache2) VMs
-    #   run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-    #     "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
-    #      /etc/ansible/inventory.ini
-    #      /etc/ansible/playbooks/apache2.yaml"
+         "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
+         /etc/ansible/inventory.ini
+         /etc/ansible/playbooks/srv_apache2.yaml"          

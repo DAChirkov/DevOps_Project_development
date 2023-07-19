@@ -1,4 +1,4 @@
-- name: Installation and configuration Nginx
+- name: Configuring Nginx
   gather_facts: true
   become: true
   serial: 5
@@ -6,68 +6,18 @@
   remote_user: azroot
 
   tasks:
-    - name: Installing Git Package
-      apt:
-        name:
-          - git
-        state: present
-        update_cache: yes
-
-    - name: Cloning Repository
-      git:
-        repo: https://github.com/DAChirkov/DevOps_Project_development.git
-        dest: /home/temp/repo
-        force: true
-
-    - name: Installing Required System Packages
-      apt:
-        name:
-          - ca-certificates
-          - curl
-          - gnupg
-          - python3-pip
-        state: present
-        update_cache: yes
-
-    - name: Add Docker GPG apt Key
-      apt_key:
-        url: https://download.docker.com/linux/debian/gpg
-        state: present
-
-    - name: Add Docker Repository
-      apt_repository:
-        repo: deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
-        state: present
-
-    - name: Installing Docker's packages
-      apt:
-        name:
-          - docker-ce
-          - docker-ce-cli
-          - containerd.io
-          - docker-buildx-plugin
-          - docker-compose-plugin
-        state: latest
-        update_cache: true
-
     - name: Create a New Directory
       file:
-        path: /mnt/apache2
+        path: /mnt/nginx
         state: directory
         mode: "0755"
 
     - name: Copy Configuration
       copy:
         remote_src: yes
-        src: /home/temp/repo/configuration/apache2/
-        dest: /mnt/apache2
-
-    - name: Install Docker's Package for Ansible-Galaxy
-      pip:
-        name:
-          - docker
-          - docker_compose
-        state: present
+        directory_mode: yes
+        src: /home/temp/repo/configuration/nginx/
+        dest: /mnt/nginx
 
     - name: Start Docker's Containers
       community.docker.docker_compose:
