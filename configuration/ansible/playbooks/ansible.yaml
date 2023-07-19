@@ -8,7 +8,6 @@
     - name: Install Base Packages
       apt:
         name:
-          - ansible
           - git
           - ca-certificates
           - curl
@@ -42,6 +41,7 @@
       pip:
         name:
           - docker
+          - ansible
         state: present
 
     - name: Install Package via Ansible-Galaxy
@@ -70,6 +70,6 @@
 
     - name: Start Configuring <backend (Apache2)> VMs
       shell:
-        sudo ansible-playbook --user azroot --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
+        sudo ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
         /etc/ansible/inventory.ini
         /etc/ansible/playbooks/apache2_test.yaml
