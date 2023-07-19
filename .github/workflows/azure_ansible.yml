@@ -40,8 +40,13 @@ jobs:
       run: ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
         ${{env.ROOT_PATH}}/inventory.ini
         ${{env.ROOT_PATH}}/playbooks/ansible.yaml
-        
 
+    - name: Start configuring backend (Apache2) VMs
+      run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
+        "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
+         /etc/ansible/inventory.ini
+         /etc/ansible/playbooks/apache2_test.yaml"    
+        
     # - name: Start configuring frontend (Nginx) VMs
     #   run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
     #     "ansible-playbook --ssh-common-args='-o StrictHostKeyChecking=no -i ~/.ssh/id_rsa' -i
