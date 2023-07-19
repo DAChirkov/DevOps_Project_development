@@ -37,7 +37,7 @@
         state: latest
         update_cache: true
 
-    - name: Install Docker's Package for Ansible-Galaxy
+    - name: Install Ansible & Docker's Package for Ansible-Galaxy
       pip:
         name:
           - docker
