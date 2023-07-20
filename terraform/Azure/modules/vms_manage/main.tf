@@ -4,15 +4,14 @@
 
 # Create public IP
 resource "azurerm_public_ip" "manage_servers" {
-  depends_on              = [var.resource_group_name]
-  count                   = var.vm_count
-  resource_group_name     = var.resource_group_name
-  location                = var.resource_group_location
-  name                    = "${var.manage_prefix}-${count.index + 1}_PublicIP"
-  allocation_method       = "Dynamic"
-  sku                     = "Basic"
-  domain_name_label       = lower("${var.manage_prefix}-${count.index + 1}")
-  idle_timeout_in_minutes = 4
+  depends_on          = [var.resource_group_name]
+  count               = var.vm_count
+  resource_group_name = var.resource_group_name
+  location            = var.resource_group_location
+  name                = "${var.manage_prefix}-${count.index + 1}_PublicIP"
+  allocation_method   = "Dynamic"
+  sku                 = "Basic"
+  domain_name_label   = lower("${var.manage_prefix}-${count.index + 1}")
 }
 
 # Create network interface

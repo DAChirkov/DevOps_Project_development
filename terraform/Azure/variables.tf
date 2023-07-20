@@ -48,3 +48,27 @@ variable "resource_nsg_main" {
   description = "Name of the main NSG"
 }
 
+variable "resource_lb_ip" {
+  default     = "LB_ip"
+  description = "Name of the LB ip"
+}
+variable "resource_lb_ip_dnsname" {
+  default     = "lbsite001"
+  description = "Name of the DNS name for LB"
+}
+variable "resource_front_ip_name" {
+  default     = "LoadBalancerFrontEnd"
+  description = "Name of the Front IP for LB"
+}
+variable "resource_backendpool1_name" {
+  default     = "BackendPool1"
+  description = "Name of the BackendPool 1 for LB"
+}
+variable "resource_backendpool2_name" {
+  default     = "BackendPool2"
+  description = "Name of the BackendPool 2 for LB"
+}
+variable "resource_lbrule_name" {
+  default     = "Rule_HTTP"
+  description = "Name of the LB rule"
+}
