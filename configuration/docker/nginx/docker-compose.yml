@@ -3,9 +3,6 @@ services:
   fronend_1:
     image: nginx:stable
     container_name: nginx_server
-    volumes:
-      - "/mnt/nginx/sites-available:/etc/nginx/sites-available"
-      - "/mnt/nginx/sites-enabled:/etc/nginx/sites-enabled"
     ports:
       - "80:80"
     restart: unless-stopped
