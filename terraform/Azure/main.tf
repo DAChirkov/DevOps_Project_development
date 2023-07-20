@@ -23,6 +23,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_availability_set" "av_set_frontend" {
+  depends_on                   = [azurerm_resource_group.rg]
   resource_group_name          = var.resource_group_name
   location                     = var.resource_group_location
   name                         = var.resource_availability_set_frontend
@@ -31,6 +32,7 @@ resource "azurerm_availability_set" "av_set_frontend" {
   managed                      = true
 }
 resource "azurerm_availability_set" "av_set_backend" {
+  depends_on                   = [azurerm_resource_group.rg]
   resource_group_name          = var.resource_group_name
   location                     = var.resource_group_location
   name                         = var.resource_availability_set_backend
@@ -107,6 +109,7 @@ resource "azurerm_network_security_rule" "nsg_main_ssh" {
 
 # Load Balancer
 resource "azurerm_public_ip" "lb" {
+  depends_on          = [azurerm_resource_group.rg]
   name                = var.resource_lb_ip
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
