@@ -109,50 +109,38 @@ resource "azurerm_lb" "lb" {
   }
 }
 resource "azurerm_lb_backend_address_pool" "backend_pool1" {
-  resource_group_name = var.resource_group_name
-  loadbalancer_id     = azurerm_lb.lb.id
-  name                = var.resource_backendpool1_name
+  loadbalancer_id = azurerm_lb.lb.id
+  name            = var.resource_backendpool1_name
 }
 resource "azurerm_lb_backend_address_pool" "backend_pool2" {
-  resource_group_name = var.resource_group_name
-  loadbalancer_id     = azurerm_lb.lb.id
-  name                = var.resource_backendpool2_name
+  loadbalancer_id = azurerm_lb.lb.id
+  name            = var.resource_backendpool2_name
 }
 resource "azurerm_lb_nat_rule" "nat_rule" {
-  resource_group_name = var.resource_group_name
-  loadbalancer_id     = azurerm_lb.lb.id
-  name                = "HTTP_Access"
-  protocol            = "Tcp"
-  frontend_port       = 80
-  backend_port        = 80
-  backend_address_pool_id = [
-    azurerm_lb_backend_address_pool.backend_pool1.id,
-    azurerm_lb_backend_address_pool.backend_pool2.id,
-  ]
+  resource_group_name            = var.resource_group_name
+  loadbalancer_id                = azurerm_lb.lb.id
+  name                           = "HTTP_Access"
+  protocol                       = "Tcp"
+  frontend_port                  = 80
+  backend_port                   = 80
   frontend_ip_configuration_name = var.resource_front_ip_name
 }
 resource "azurerm_lb_rule" "lb_rule" {
-  resource_group_name            = var.resource_group_name
   loadbalancer_id                = azurerm_lb.lb.id
   name                           = var.resource_lbrule_name
-  protocol                       = "tcp"
+  protocol                       = "Tcp"
   frontend_port                  = 80
   backend_port                   = 80
   frontend_ip_configuration_name = var.resource_front_ip_name
   enable_floating_ip             = false
-  backend_address_pool_id = [
-    azurerm_lb_backend_address_pool.backend_pool1.id,
-    azurerm_lb_backend_address_pool.backend_pool2.id,
-  ]
-  idle_timeout_in_minutes = 4
-  probe_id                = azurerm_lb_probe.lb_probe.id
-  depends_on              = ["azurerm_lb_probe.lb_probe"]
+  idle_timeout_in_minutes        = 4
+  probe_id                       = azurerm_lb_probe.lb_probe.id
+  depends_on                     = [azurerm_lb_probe.lb_probe]
 }
 resource "azurerm_lb_probe" "lb_probe" {
-  resource_group_name = var.resource_group_name
   loadbalancer_id     = azurerm_lb.lb.id
   name                = "Probe_HTTP"
-  protocol            = "tcp"
+  protocol            = "Tcp"
   port                = 80
   interval_in_seconds = 5
   number_of_probes    = 2
