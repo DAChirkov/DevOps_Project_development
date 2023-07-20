@@ -85,7 +85,7 @@ jobs:
  
     - name: Start Docker Containers
       run: sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa azroot@vm-mng-1.eastus2.cloudapp.azure.com
-        "docker-compose -f /home/temp/repo/configuration/docker/nginx/docker-compose.yml up -d"   
+        "docker compose -f /home/temp/repo/configuration/docker/nginx/docker-compose.yml up -d"   
          
 
 
