@@ -2,7 +2,7 @@
   gather_facts: true
   become: true
   serial: 5
-  hosts: all
+  hosts: all_servers
   remote_user: azroot
 
   tasks:
@@ -22,9 +22,11 @@
     - name: Install Required Packages
       apt:
         name:
+          - apt-transport-https
           - ca-certificates
           - curl
           - gnupg
+          - software-properties-common
         state: present
         update_cache: yes
 
