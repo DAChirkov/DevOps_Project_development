@@ -18,3 +18,6 @@
         directory_mode: yes
         src: /home/temp/repo/configuration/apache2/
         dest: /mnt/apache2
+
+    - name: Start Docker Containers
+      shell: sudo docker compose -f /home/temp/repo/configuration/docker/apache2/docker-compose.yml up -d
