@@ -2,7 +2,6 @@ variable "resource_group_location" {}
 variable "resource_group_name" {}
 variable "subnet_id" {}
 variable "network_security_group_id" {}
-variable "lb_nat_rule_id" {}
 variable "availability_set_id" {}
 variable "public_key" {}
 variable "vm_count" {

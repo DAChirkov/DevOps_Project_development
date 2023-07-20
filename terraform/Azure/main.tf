@@ -133,17 +133,6 @@ resource "azurerm_lb_backend_address_pool" "backend_pool" {
   ## backend_addresses = #### Добавить VM
 }
 
-resource "azurerm_lb_nat_rule" "nat_rule" {
-  resource_group_name            = var.resource_group_name
-  loadbalancer_id                = azurerm_lb.lb.id
-  name                           = "HTTP_Access"
-  protocol                       = "Tcp"
-  frontend_port_start            = 80
-  frontend_port_end              = 80
-  backend_port                   = 80
-  frontend_ip_configuration_name = var.resource_front_ip_name
-  backend_address_pool_id        = azurerm_lb_backend_address_pool.backend_pool.id
-}
 resource "azurerm_lb_rule" "lb_rule" {
   loadbalancer_id                = azurerm_lb.lb.id
   name                           = var.resource_lbrule_name
@@ -189,7 +178,6 @@ module "frontend_vms" {
   resource_group_location   = azurerm_resource_group.rg.location
   subnet_id                 = azurerm_subnet.snet2.id
   network_security_group_id = azurerm_network_security_group.nsg_main.id
-  lb_nat_rule_id            = azurerm_lb_nat_rule.nat_rule.id
   availability_set_id       = azurerm_availability_set.av_set_frontend.id
   public_key                = azurerm_ssh_public_key.ssh_clients_key.public_key
 }

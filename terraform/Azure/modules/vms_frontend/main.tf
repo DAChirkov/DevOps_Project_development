@@ -22,14 +22,6 @@ resource "azurerm_network_interface_security_group_association" "frontend_server
   network_security_group_id = var.network_security_group_id
 }
 
-# Connect the load balancer to the network interface
-resource "azurerm_network_interface_nat_rule_association" "frontend_servers" {
-  count                 = var.vm_count
-  network_interface_id  = element(azurerm_network_interface.frontend_servers.*.id, count.index)
-  ip_configuration_name = "ipconfig_${var.frontend_prefix}-${count.index + 1}_NIC"
-  nat_rule_id           = var.lb_nat_rule_id
-}
-
 resource "azurerm_linux_virtual_machine" "frontend_servers" {
   count                           = var.vm_count
   resource_group_name             = var.resource_group_name
