@@ -26,6 +26,7 @@ resource "azurerm_linux_virtual_machine" "backend_servers" {
   count                           = var.vm_count
   resource_group_name             = var.resource_group_name
   location                        = var.resource_group_location
+  availability_set_id             = var.availability_set_id
   name                            = "${var.backend_prefix}-${count.index + 1}"
   size                            = var.vms_size
   computer_name                   = "${var.backend_prefix}-${count.index + 1}"

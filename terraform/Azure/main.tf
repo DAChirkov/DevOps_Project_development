@@ -22,6 +22,23 @@ resource "azurerm_resource_group" "rg" {
   name     = var.resource_group_name
 }
 
+resource "azurerm_availability_set" "av_set_frontend" {
+  resource_group_name          = var.resource_group_name
+  location                     = var.resource_group_location
+  name                         = var.resource_availability_set_frontend
+  platform_fault_domain_count  = 2
+  platform_update_domain_count = 2
+  managed                      = true
+}
+resource "azurerm_availability_set" "av_set_backend" {
+  resource_group_name          = var.resource_group_name
+  location                     = var.resource_group_location
+  name                         = var.resource_availability_set_backend
+  platform_fault_domain_count  = 2
+  platform_update_domain_count = 2
+  managed                      = true
+}
+
 resource "azurerm_ssh_public_key" "ssh_servers_key" {
   depends_on          = [azurerm_resource_group.rg]
   resource_group_name = var.resource_group_name
@@ -90,13 +107,12 @@ resource "azurerm_network_security_rule" "nsg_main_ssh" {
 
 # Load Balancer
 resource "azurerm_public_ip" "lb" {
-  depends_on          = [var.resource_group_name]
   name                = var.resource_lb_ip
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   allocation_method   = "Dynamic"
   sku                 = "Basic"
-  domain_name_label   = var.resource_lb_ip_dnsname
+  domain_name_label   = lower(var.resource_lb_ip_dnsname)
 }
 resource "azurerm_lb" "lb" {
   resource_group_name = var.resource_group_name
@@ -108,22 +124,22 @@ resource "azurerm_lb" "lb" {
     public_ip_address_id = azurerm_public_ip.lb.id
   }
 }
-resource "azurerm_lb_backend_address_pool" "backend_pool1" {
+resource "azurerm_lb_backend_address_pool" "backend_pool" {
   loadbalancer_id = azurerm_lb.lb.id
-  name            = var.resource_backendpool1_name
+  name            = var.resource_backendpool_name
+  ## backend_addresses = #### Добавить VM
 }
-resource "azurerm_lb_backend_address_pool" "backend_pool2" {
-  loadbalancer_id = azurerm_lb.lb.id
-  name            = var.resource_backendpool2_name
-}
+
 resource "azurerm_lb_nat_rule" "nat_rule" {
   resource_group_name            = var.resource_group_name
   loadbalancer_id                = azurerm_lb.lb.id
   name                           = "HTTP_Access"
   protocol                       = "Tcp"
-  frontend_port                  = 80
+  frontend_port_start            = 80
+  frontend_port_end              = 80
   backend_port                   = 80
   frontend_ip_configuration_name = var.resource_front_ip_name
+  backend_address_pool_id        = azurerm_lb_backend_address_pool.backend_pool.id
 }
 resource "azurerm_lb_rule" "lb_rule" {
   loadbalancer_id                = azurerm_lb.lb.id
@@ -136,6 +152,8 @@ resource "azurerm_lb_rule" "lb_rule" {
   idle_timeout_in_minutes        = 4
   probe_id                       = azurerm_lb_probe.lb_probe.id
   depends_on                     = [azurerm_lb_probe.lb_probe]
+  #### Не сработало
+
 }
 resource "azurerm_lb_probe" "lb_probe" {
   loadbalancer_id     = azurerm_lb.lb.id
@@ -169,6 +187,7 @@ module "frontend_vms" {
   subnet_id                 = azurerm_subnet.snet2.id
   network_security_group_id = azurerm_network_security_group.nsg_main.id
   lb_nat_rule_id            = azurerm_lb_nat_rule.nat_rule.id
+  availability_set_id       = azurerm_availability_set.av_set_frontend.id
   public_key                = azurerm_ssh_public_key.ssh_clients_key.public_key
 }
 
@@ -179,5 +198,6 @@ module "backend_vms" {
   resource_group_location   = azurerm_resource_group.rg.location
   subnet_id                 = azurerm_subnet.snet3.id
   network_security_group_id = azurerm_network_security_group.nsg_main.id
+  availability_set_id       = azurerm_availability_set.av_set_backend.id
   public_key                = azurerm_ssh_public_key.ssh_clients_key.public_key
 }
