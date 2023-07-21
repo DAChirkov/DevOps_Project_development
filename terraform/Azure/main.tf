@@ -118,7 +118,7 @@ resource "azurerm_network_security_rule" "nsg_main_http" {
   source_port_range           = "*"
   destination_port_range      = "80"
   source_address_prefix       = "*"
-  destination_address_prefix  = "10.1.1.4/24"
+  destination_address_prefix  = "10.1.1.0/24"
 }
 
 # Load Balancer
@@ -146,12 +146,11 @@ resource "azurerm_lb_backend_address_pool" "backend_pool" {
   name            = var.resource_backendpool_name
 }
 resource "azurerm_network_interface_backend_address_pool_association" "backend_pool" {
-  count                   = 2
+  count                   = var.count_vms_frontend
   backend_address_pool_id = azurerm_lb_backend_address_pool.backend_pool.id
-  ip_configuration_name   = "testconfiguration1"
+  ip_configuration_name   = element(module.frontend_vms.ip_configuration_name, count.index)
   network_interface_id    = module.frontend_vms.nic_id[count.index]
 }
-
 
 resource "azurerm_lb_rule" "lb_rule" {
   loadbalancer_id                = azurerm_lb.lb.id
@@ -178,7 +177,7 @@ resource "azurerm_lb_probe" "lb_probe" {
 #####################################################
 
 module "vms_for_manage" {
-  vm_count                  = 1
+  vm_count                  = var.count_vms_manage
   source                    = "./modules/vms_manage"
   resource_group_name       = azurerm_resource_group.rg.name
   resource_group_location   = azurerm_resource_group.rg.location
@@ -191,7 +190,7 @@ module "vms_for_manage" {
 }
 
 module "frontend_vms" {
-  vm_count                  = 2 #default - 2, need to change LB parameters & Ansible configs
+  vm_count                  = var.count_vms_frontend #default - 2, need to change LB parameters & Ansible configs
   source                    = "./modules/vms_frontend"
   resource_group_name       = azurerm_resource_group.rg.name
   resource_group_location   = azurerm_resource_group.rg.location
@@ -202,7 +201,7 @@ module "frontend_vms" {
 }
 
 module "backend_vms" {
-  vm_count                  = 1 #default - 2, need to change Ansible & Nginx configs
+  vm_count                  = var.count_vms_backend #default - 2, need to change Ansible & Nginx configs
   source                    = "./modules/vms_backend"
   resource_group_name       = azurerm_resource_group.rg.name
   resource_group_location   = azurerm_resource_group.rg.location

@@ -77,3 +77,16 @@ variable "resource_lbrule_name" {
   default     = "Rule_HTTP"
   description = "Name of the LB rule"
 }
+
+variable "count_vms_manage" {
+  default     = 1
+  description = "Count of Manage VMs"
+}
+variable "count_vms_frontend" {
+  default     = 2
+  description = "Count of Frontend VMs"
+}
+variable "count_vms_backend" {
+  default     = 2
+  description = "Count of Backend VMs"
+}
