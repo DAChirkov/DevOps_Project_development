@@ -97,7 +97,7 @@ resource "azurerm_network_security_rule" "nsg_main_ssh" {
   name                        = "SSH"
   resource_group_name         = var.resource_group_name
   network_security_group_name = var.resource_nsg_main
-  priority                    = 1000
+  priority                    = 100
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "Tcp"
@@ -105,6 +105,20 @@ resource "azurerm_network_security_rule" "nsg_main_ssh" {
   destination_port_range      = "22"
   source_address_prefix       = "*"
   destination_address_prefix  = "10.1.0.4"
+}
+resource "azurerm_network_security_rule" "nsg_main_http" {
+  depends_on                  = [azurerm_network_security_group.nsg_main]
+  name                        = "HTTP"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = var.resource_nsg_main
+  priority                    = 101
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "80"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "10.1.1.4/24"
 }
 
 # Load Balancer
@@ -130,8 +144,14 @@ resource "azurerm_lb" "lb" {
 resource "azurerm_lb_backend_address_pool" "backend_pool" {
   loadbalancer_id = azurerm_lb.lb.id
   name            = var.resource_backendpool_name
-  ## backend_addresses = #### Добавить VM
 }
+resource "azurerm_network_interface_backend_address_pool_association" "backend_pool" {
+  count                   = 2
+  backend_address_pool_id = azurerm_lb_backend_address_pool.backend_pool.id
+  ip_configuration_name   = "testconfiguration1"
+  network_interface_id    = module.frontend_vms.nic_id[count.index]
+}
+
 
 resource "azurerm_lb_rule" "lb_rule" {
   loadbalancer_id                = azurerm_lb.lb.id
@@ -140,12 +160,11 @@ resource "azurerm_lb_rule" "lb_rule" {
   frontend_port                  = 80
   backend_port                   = 80
   frontend_ip_configuration_name = var.resource_front_ip_name
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.backend_pool.id]
   enable_floating_ip             = false
   idle_timeout_in_minutes        = 4
   probe_id                       = azurerm_lb_probe.lb_probe.id
   depends_on                     = [azurerm_lb_probe.lb_probe]
-  #### Не сработало
-
 }
 resource "azurerm_lb_probe" "lb_probe" {
   loadbalancer_id     = azurerm_lb.lb.id
