@@ -1,9 +1,9 @@
-name: Azure - Deploying test environment via Terraform
+name: Azure_Deploy Test Infrastructure (VMs)
 on: 
   workflow_dispatch:
    
 env: 
-    ROOT_PATH: '${{github.workspace}}/terraform_testing_env/Azure'
+    ROOT_PATH: '${{github.workspace}}/terraform_test/Azure'
     ARM_CLIENT_ID: ${{secrets.AZURE_CLIENT_ID}}
     ARM_CLIENT_SECRET: ${{secrets.AZURE_CLIENT_SECRET}}
     ARM_SUBSCRIPTION_ID: ${{secrets.AZURE_SUBSCRIPTION_ID}}

@@ -1,9 +1,9 @@
-name: Azure_Configuring Services
+name: Azure_Configuring Services (VMs)
 on:
   workflow_dispatch:      
   workflow_run:
     workflows:
-      - "Azure_Deploy Infrastructure"
+      - "Azure_Deploy Infrastructure (VMs)"
     types:
       - completed
 

@@ -1,11 +1,11 @@
 ##### Status of Last Deployments:
 
-###### &emsp; Deployment infrastructure:<br> &emsp; ![Build Status](https://github.com/DAChirkov/DevOps_Project_development/actions/workflows/azure_terraform.yml/badge.svg)
+###### &emsp; Deployment infrastructure:<br> &emsp; ![Build Status](https://github.com/DAChirkov/DevOps_Project/actions/workflows/azure_terraform.yml/badge.svg)
 
-###### &emsp; Deployment configuration:<br> &emsp; ![Build Status](https://github.com/DAChirkov/DevOps_Project_development/actions/workflows/azure_ansible.yml/badge.svg)
+###### &emsp; Deployment configuration:<br> &emsp; ![Build Status](https://github.com/DAChirkov/DevOps_Project/actions/workflows/azure_ansible.yml/badge.svg)
 
 ##### Azure infrastructure scheme:
-![](https://github.com/DAChirkov/DevOps_Project/blob/8171ff6085caab7424e5adef67d08ece7806cddc/pre-requisites/other/azure_scheme.jpg)  
+![](https://github.com/DAChirkov/DevOps_Project/blob/4a5f72ef9ccf72f2b37ea7ba0dbd2dbfc5a1ca8b/pre-requisites/other/azure_scheme.jpg) 
   
 ##### Required prerequisites for Azure:
 ```  
