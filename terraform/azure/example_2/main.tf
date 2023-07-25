@@ -42,7 +42,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   network_profile {
     network_plugin    = "kubenet"
     load_balancer_sku = "standard"
-    outbound_type     = "loadBalancer"
+    outbound_type     = "userDefinedRouting"
   }
   identity {
     type = "SystemAssigned"
