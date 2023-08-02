@@ -1,8 +1,9 @@
-apiVersion: v1
-kind: A Helm chart for Kubernetes
+---
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: deployment-v1
-  labes:
+  labels:
     app: apache2
     env: production
 spec:
@@ -11,7 +12,7 @@ spec:
       project: azproject-v1
   template:
     metadata:
-      labes:
+      labels:
         project: azproject-v1
     spec:
       containers:
